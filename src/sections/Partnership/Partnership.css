@@ -1,0 +1,49 @@
+/* ---------- VIII · Partnership ---------- */
+.promise { background: var(--sunlit); padding-block: 20vh 22vh; color: var(--ink); position: relative; overflow: hidden; isolation: isolate; }
+/* the same window light and plant shadows as "Crafted in Goa", so the light chapters read as one family */
+.promise::before { content: ""; position: absolute; inset: -10% -15%; z-index: -1; background: var(--window-light); opacity: .9; pointer-events: none; }
+.promise::after { content: ""; position: absolute; inset: -10% -15%; z-index: -1; background: var(--window-shade); pointer-events: none; }
+.promise > .wrap { position: relative; z-index: 1; }
+.promise .leaves { z-index: 0; }
+.promise .sh { margin: 0; }
+.promise .sh .label { color: var(--clay); }
+.promise .t-title { color: var(--ink); }
+.promise .t-title em { color: var(--clay); }
+.promise .sh .line { padding-inline: .25em; margin-inline: -.25em; }
+.promise .sh .line + .line em { display: inline-block; margin-top: -.1em; }
+
+/* title on the left, the promise on the right: one calm row instead of a stack */
+.promise-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 6vw; align-items: start; }
+.promise-text { font: 400 clamp(1.3rem, 2vw, 2.05rem)/1.5 var(--f-display); letter-spacing: -.01em; max-width: 34ch; margin: .4rem 0 0; }
+.promise-text .w { opacity: .14; }
+.rm .promise-text .w { opacity: 1; }
+.serve { list-style: none; margin: 6vh 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.1rem; }
+.serve li { font: var(--label); letter-spacing: var(--track); text-transform: uppercase; color: rgba(38, 23, 14, .62); display: flex; align-items: center; gap: 1.1rem; }
+.serve li:not(:last-child)::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--clay); opacity: .7; }
+
+.moments { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); margin: 16vh auto 0; max-width: 1180px; }
+.moments figure { margin: 0; aspect-ratio: 4/5; overflow: hidden; border-radius: 2px; background: #e4d3bb; box-shadow: 0 40px 70px -40px rgba(80, 45, 20, .45); }
+.moments figure:nth-child(2) { transform: translateY(7vh); }
+.moments img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.moments figure:hover img { transform: scale(1.04); }
+
+/* the closing line stands alone, centred, with room to breathe */
+.promise-sign { margin-top: 26vh; display: grid; justify-items: center; gap: 3rem; text-align: center; }
+.promise-sign .t-quote { max-width: 22ch; text-wrap: balance; color: var(--ink); }
+.promise-sign .hl { color: var(--clay); }
+.promise-sign .btn-solid:hover { background: var(--clay); color: var(--paper); }
+.promise-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem 2.4rem; }
+.promise-cta .tlink { color: var(--ink); }
+.promise-cta .tlink:hover { color: var(--clay); }
+
+@media (max-width: 980px) {
+  .promise-head { grid-template-columns: 1fr; gap: 5vh; }
+}
+@media (max-width: 720px) {
+  .promise { padding-block: 14vh 16vh; }
+  .moments { gap: 10px; margin-top: 11vh; }
+  .moments figure:nth-child(2) { transform: translateY(4vh); }
+  .promise-sign { gap: 2.2rem; margin-top: 18vh; }
+  .serve { gap: .8rem 1.1rem; }
+  .serve li { gap: 1.1rem; }
+}

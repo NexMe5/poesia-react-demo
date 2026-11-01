@@ -1,0 +1,57 @@
+/* Design tokens.
+   Layout concept: one continuous scroll film, "soil to cup", set in a single dark espresso world.
+   A coffee bean cracks open to reveal the sunlit range; every chapter after it is a pinned or flowing
+   scene that shares one type system (Baskerville titles, Lato labels, Pinyon Script for one accent word),
+   one header component and one reveal motion. */
+:root {
+  --espresso: #140c06;   /* deepest roast, page ground */
+  --roast: #362415;      /* brochure back-cover brown */
+  --bark: #5c3b25;
+  --caramel: #c98a4b;
+  --gold: #d6a93a;       /* emblem gold */
+  --paper: #f5ede1;      /* sunlit wall from the bag photography */
+  --paper-2: #eadcc7;
+  --ink: #26170e;
+  --muted: #76604c;
+  --clay: #8e3b22;       /* brochure heading red-brown */
+  --line: rgba(38, 23, 14, .14);
+  --cream: #f3e7d6;
+  --cream-muted: rgba(243, 231, 214, .68);
+  --cream-line: rgba(243, 231, 214, .14);
+
+  --f-display: "Libre Baskerville", "Baskerville", "GFS Baskerville", Georgia, serif;
+  --f-body: "Lato", "Helvetica Neue", Arial, sans-serif;
+  --f-script: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
+
+  --copper: #c8834f;     /* the wordmark's copper */
+  --copper-l: #e6b688;
+  --copper-grad: linear-gradient(180deg, #f2c896 0%, #d19358 40%, #9a5a30 78%, #b47444 100%);
+  --roast-grad: linear-gradient(180deg, #cf9157 0%, #a9652f 42%, #7b4220 80%, #93552a 100%); /* copper that holds on cream */
+  --sunlit: radial-gradient(120% 90% at 72% 18%, #fbf6ee 0%, var(--paper) 46%, var(--paper-2) 100%);
+
+  /* window light and shade falling across the cream chapters (hero, craft, blends opening, partnership) */
+  --window-light: repeating-linear-gradient(118deg, transparent 0 6.3%, rgba(255, 253, 247, .62) 9.95% 11.55%, transparent 15.2% 23%);
+  --window-shade: repeating-linear-gradient(118deg, transparent 0 12.84%, rgba(110, 70, 35, .07) 15.76% 18.24%, transparent 21.16% 31%);
+
+  /* one label size, two trackings, one radius, an 8-point spacing scale */
+  --fs-label: .75rem;                    /* 12px: every small uppercase label, caption and button */
+  --label: 700 var(--fs-label)/1.35 var(--f-body);
+  --track: .22em;
+  --track-tight: .16em;
+  --radius: 2px;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
+  --t-title: 400 clamp(2.3rem, 4.4vw, 4.6rem)/1.06 var(--f-display);
+  --t-quote: 400 clamp(1.7rem, 2.9vw, 3rem)/1.24 var(--f-display);
+
+  --gut: clamp(18px, 4.6vw, 72px);
+  --scene-top: 14vh;                     /* where every pinned chapter's label sits */
+  --ease: cubic-bezier(.2, .7, .1, 1);
+  --smart: cubic-bezier(.37, .01, .11, .99);   /* smart-animate curve for the timed shots */
+
+  /* keep these colours in dark-mode browsers: cream stays cream, espresso stays espresso */
+  color-scheme: only light;
+}
+
+@media (max-width: 720px) {
+  :root { --scene-top: 12vh; }
+}

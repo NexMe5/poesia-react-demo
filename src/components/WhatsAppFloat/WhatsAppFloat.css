@@ -1,0 +1,30 @@
+.wa-float {
+  position: fixed; right: max(18px, env(safe-area-inset-right, 0px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); z-index: 59;
+  display: flex; align-items: center; gap: 14px; text-decoration: none; pointer-events: none;
+  opacity: 0; transform: translateY(16px) scale(.9); transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.wa-float.on { opacity: 1; transform: none; pointer-events: auto; }
+.wa-ico {
+  width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: #25d366; color: #fff;
+  box-shadow: 0 12px 28px -8px rgba(37, 211, 102, .45), 0 6px 16px -8px rgba(0, 0, 0, .5);
+  transition: transform .4s var(--ease), box-shadow .4s;
+}
+.wa-ico svg { width: 30px; height: 30px; }
+.wa-float:hover .wa-ico { transform: scale(1.05); box-shadow: 0 14px 34px -8px rgba(37, 211, 102, .55), 0 6px 16px -8px rgba(0, 0, 0, .5); }
+.wa-tip {
+  position: relative; font: 400 .88rem/1 var(--f-body); letter-spacing: .01em; color: #f4ece2;
+  background: rgba(24, 22, 21, .94); border: 1px solid rgba(255, 255, 255, .07); padding: .72em 1em; border-radius: 12px;
+  box-shadow: 0 10px 26px -12px rgba(0, 0, 0, .6); white-space: nowrap; pointer-events: none;
+  opacity: 0; transform: translateX(8px); transition: opacity .35s, transform .35s var(--ease);
+}
+.wa-tip::after {
+  content: ""; position: absolute; right: -9px; top: 50%; width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(24, 22, 21, .94); transform: translateY(-50%);
+}
+.wa-float:hover .wa-tip, .wa-float:focus-visible .wa-tip { opacity: 1; transform: none; }
+html.menu-open .wa-float { opacity: 0; pointer-events: none; }
+@media (hover: none) { .wa-tip { display: none; } }
+@media (max-width: 720px) {
+  .wa-ico { width: 52px; height: 52px; }
+  .wa-ico svg { width: 27px; height: 27px; }
+}

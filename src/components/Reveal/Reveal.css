@@ -1,0 +1,4 @@
+/* reveal for flow content */
+.js .rv { opacity: 0; transform: translateY(26px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.js .rv.in { opacity: 1; transform: none; }
+.rm .rv { opacity: 1; transform: none; }

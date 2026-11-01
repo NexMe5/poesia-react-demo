@@ -1,0 +1,172 @@
+/* ---------- IV · Blends ---------- */
+.blends { height: 580vh; color: var(--cream); margin-top: -100vh; z-index: 2; }
+.blends .sticky { background: #140c06; --ctr-top: 73vh; --ctr-h: 13vh; }
+
+/* a faint bird motif in the corner */
+.bird {
+  position: absolute; top: 0; right: 0; width: clamp(150px, 19vw, 300px); aspect-ratio: 587/595; z-index: 0; pointer-events: none;
+  color: rgba(70, 45, 25, .13); background: currentColor;
+  -webkit-mask: url("../../assets/images/motif-bird.png") top right/contain no-repeat;
+  mask: url("../../assets/images/motif-bird.png") top right/contain no-repeat;
+}
+.bird.on-dark { color: rgba(243, 231, 214, .07); }
+
+/* the opening ground repeats the craft stage exactly, so the hand-off is invisible */
+.blend-dark { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; background: var(--sunlit); opacity: 1; transition: opacity 0s; }
+.blend-dark::before { content: ""; position: absolute; inset: -15%; background: var(--window-light); opacity: .9; pointer-events: none; }
+.blend-dark::after { content: ""; position: absolute; inset: -15%; background: var(--window-shade); pointer-events: none; }
+.blends .sticky:not([data-s="0"]):not([data-s="1"]) .blend-dark { opacity: 0; transition-delay: 1.3s; }
+.blend-bg { position: absolute; inset: 0; z-index: 0; background-color: #34250c; transition: background-color 1.4s var(--smart); }
+/* the blend's colour pours out from the bag and fills the room: every frame is either cream or colour, never a mix of both */
+.blend-wash {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none; background-color: #34250c;
+  clip-path: circle(0% at var(--at, 74%) 52%); transition: clip-path 1.25s var(--smart), background-color 1.4s var(--smart);
+}
+.blends .sticky:not([data-s="0"]):not([data-s="1"]) .blend-wash { clip-path: circle(150% at var(--at, 74%) 52%); }
+
+.blends-head { position: absolute; top: var(--scene-top); left: 0; right: 0; z-index: 4; opacity: 0; transition: opacity .8s var(--smart); }
+.blends-head .label { transition: color .8s var(--smart); }
+.blends .sticky:not([data-s="0"]) .blends-head { opacity: 1; }
+.blends .sticky[data-s="1"] .blends-head .label { color: var(--clay); }
+.range-title {
+  position: absolute; left: 0; right: 0; top: calc(var(--scene-top) + 3vh); z-index: 6; text-align: center; color: var(--ink); pointer-events: none;
+  opacity: 0; transform: translateY(24px); transition: opacity .7s var(--smart), transform 1.1s var(--smart);
+}
+.range-title em { color: var(--clay); }
+.blends .sticky[data-s="1"] .range-title { opacity: 1; transform: none; transition-delay: .45s; }
+.blends .sticky.instant * { transition: none !important; }
+
+/* one blend's words */
+.blend {
+  position: absolute; left: 0; bottom: 13vh; width: min(46vw, 660px); z-index: 4;
+  opacity: 0; visibility: hidden; transform: translateY(46px);
+  transition: opacity .55s var(--smart), transform 1s var(--smart), visibility 0s linear .6s;
+}
+.blend.past { transform: translateY(-46px); }
+/* the second and fourth blends mirror the shot: bag on the left, words on the right */
+.blend.alt { left: auto; right: 0; }
+.blend.on { opacity: 1; visibility: visible; transform: none; transition: opacity .9s var(--smart) .4s, transform 1.3s var(--smart) .35s, visibility 0s; }
+.blend h2 { font: 400 clamp(3.4rem, 6.8vw, 7.4rem)/.98 var(--f-display); letter-spacing: -.03em; margin: 0; }
+.blend .note { font: 400 clamp(1.1rem, 1.35vw, 1.35rem)/1.45 var(--f-display); letter-spacing: .01em; color: var(--accent); margin: .9rem 0 2.2rem; }
+.specs { margin: 0; display: grid; max-width: 30rem; }
+.spec { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: var(--s4); align-items: center; padding: var(--s3) 0; border-top: 1px solid var(--cream-line); }
+.spec dt { font: var(--label); letter-spacing: var(--track); text-transform: uppercase; color: var(--cream-muted); }
+.spec dd { margin: 0; }
+.split { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: rgba(255, 255, 255, .14); margin-bottom: .55rem; }
+.split i { display: block; height: 100%; }
+.split .ara { background: var(--accent); }
+.split .rob { background: rgba(255, 240, 220, .42); }
+.split-l { display: flex; justify-content: space-between; font: var(--label); letter-spacing: var(--track-tight); text-transform: uppercase; color: var(--cream-muted); }
+.split-l b { color: var(--cream); font-weight: 700; }
+.roast { display: flex; align-items: center; gap: 8px; }
+.roast i { display: block; border-radius: 50%; border: 1.5px solid rgba(255, 240, 220, .4); }
+.roast i:nth-child(1) { width: 8px; height: 8px; }
+.roast i:nth-child(2) { width: 10px; height: 10px; }
+.roast i:nth-child(3) { width: 12px; height: 12px; }
+.roast i:nth-child(4) { width: 14px; height: 14px; }
+.roast i:nth-child(5) { width: 16px; height: 16px; }
+.roast i.on { background: var(--accent); border-color: var(--accent); }
+.roast b { display: none; }
+
+/* range shot: an oak café counter rises under the bags; the wall behind keeps its window light and leaves */
+.blend-bags { position: absolute; right: 3vw; top: 53%; width: 46vw; height: 86vh; transform: translateY(-50%); z-index: 3; }
+.counter { position: absolute; left: 0; right: 0; top: var(--ctr-top); bottom: 0; z-index: 2; pointer-events: none; opacity: 0; transform: translateY(8vh); transition: opacity .9s var(--smart), transform 1.4s var(--smart); }
+.counter::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 6vh; background: linear-gradient(180deg, transparent, rgba(90, 52, 22, .13)); pointer-events: none; }
+.ctr-top { position: absolute; left: 0; right: 0; top: 0; height: var(--ctr-h); background: url("../../assets/images/counter-top.webp") 50% 0/100% 100% no-repeat; }
+.ctr-front { position: absolute; left: 0; right: 0; top: var(--ctr-h); bottom: 0; background: url("../../assets/images/counter-front.webp") 50% 0/cover no-repeat; }
+/* the same window light falls across the wood */
+.ctr-top::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(118deg, transparent 0 8.1%, rgba(255, 236, 200, .16) 9.31% 12.19%, transparent 13.4% 23%); mix-blend-mode: screen; }
+.blends .sticky[data-s="1"] .counter { opacity: 1; transform: none; transition-delay: .05s; }
+
+/* a soft contact shadow under each standing bag */
+.bshadow {
+  position: absolute; left: 50%; top: 50%; width: var(--sw, 20vh); height: 3.4vh; border-radius: 50%; z-index: 0; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(45, 22, 6, .55), rgba(45, 22, 6, .22) 55%, transparent);
+  transition: transform 1.5s var(--smart), opacity .6s var(--smart);
+}
+.bbag {
+  position: absolute; left: 50%; top: 50%; height: 70vh; width: auto; max-width: none; will-change: transform, opacity; transform-origin: 50% 60%;
+  filter: drop-shadow(0 44px 44px rgba(0, 0, 0, .5)) drop-shadow(0 8px 10px rgba(0, 0, 0, .3));
+  transition: transform 1.5s var(--smart), opacity .8s var(--smart), filter 1.2s var(--smart);
+}
+.blends .sticky[data-s="1"] .bbag { filter: drop-shadow(0 16px 16px rgba(50, 25, 8, .28)) drop-shadow(0 3px 5px rgba(50, 25, 8, .22)); cursor: pointer; animation: breathe 5.6s ease-in-out var(--bd, 0s) infinite; }
+/* the hand-off and range shots keep the craft stage's warm shadow (this rule wins over the lighter one above) */
+.blends .sticky[data-s="0"] .bbag, .blends .sticky[data-s="1"] .bbag { filter: drop-shadow(0 46px 38px rgba(70, 38, 14, .34)) drop-shadow(0 8px 12px rgba(70, 38, 14, .24)); }
+@keyframes breathe { 0%, 100% { scale: 1; } 50% { scale: 1.014; } }
+
+/* beans on the counter: the three from the orbit drop in and settle, two were already lying there */
+.cbeans { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.cbean {
+  position: absolute; left: var(--x); top: var(--y); width: var(--w); height: auto; max-width: none;
+  margin: calc(var(--w) / -2) 0 0 calc(var(--w) / -2); transform: scaleY(.72) rotate(var(--r)); opacity: 0;
+  filter: drop-shadow(0 3px 2px rgba(40, 18, 4, .5)) drop-shadow(0 6px 6px rgba(40, 18, 4, .25)); transition: opacity .4s var(--smart);
+}
+.cbean.far { filter: drop-shadow(0 2px 2px rgba(40, 18, 4, .45)) brightness(.9) blur(.4px); }
+.blends .sticky[data-s="1"] .cbean { opacity: 1; transition: none; animation: beanDrop 1.35s var(--d, .4s) both; }
+.blends .sticky[data-s="1"] .cbean.far { animation: beanRest .8s .2s both; }
+@keyframes beanDrop {
+  0% { transform: translateY(-105vh) scaleY(1) rotate(calc(var(--r) - 240deg)); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+  60% { transform: translateY(0) scaleY(.72) rotate(calc(var(--r) - 24deg)); animation-timing-function: cubic-bezier(0, .55, .45, 1); }
+  73% { transform: translateY(-2.4vh) scaleY(.72) rotate(calc(var(--r) - 9deg)); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+  85% { transform: translateY(0) scaleY(.72) rotate(calc(var(--r) - 2deg)); animation-timing-function: cubic-bezier(0, .55, .45, 1); }
+  92% { transform: translateY(-.5vh) scaleY(.72) rotate(var(--r)); }
+  100% { transform: translateY(0) scaleY(.72) rotate(var(--r)); }
+}
+@keyframes beanRest { from { opacity: 0; } to { opacity: 1; } }
+
+/* each blend's name on the counter edge below its bag; shown on hover (always on touch screens) */
+.btag {
+  position: absolute; left: 0; top: 0; z-index: 5; white-space: nowrap; pointer-events: none;
+  font: var(--label); letter-spacing: var(--track); text-transform: uppercase; color: rgba(246, 234, 216, .95); text-shadow: 0 1px 6px rgba(20, 10, 4, .6);
+  transform: translate(-50%, 10px); opacity: 0; transition: opacity .45s var(--smart), transform .6s var(--smart);
+}
+.btag b, .btag i { font: inherit; }
+.btag::before { content: ""; display: block; width: 22px; height: 1px; margin: 0 auto 9px; background: currentColor; opacity: .6; }
+.blends .sticky[data-s="1"] .btag.on { opacity: 1; transform: translate(-50%, 0); }
+@media (hover: none) { .blends .sticky[data-s="1"] .btag { opacity: .9; transform: translate(-50%, 0); transition-delay: 1.3s; } }
+
+/* the blend's name in calligraphy, a faint watermark across the whole stage */
+.bnames { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+.bname {
+  position: absolute; left: 50%; top: 36%; z-index: 0; white-space: nowrap; padding: .1em .2em; pointer-events: none;
+  font: 400 clamp(9rem, 24vw, 26rem)/1 var(--f-script); color: var(--c); opacity: 0; will-change: transform, opacity;
+  transform: translate(-50%, -50%) translateX(34vw); transition: transform 1.8s var(--smart), opacity 1s var(--smart);
+}
+.bname.past { transform: translate(-50%, -50%) translateX(-34vw); }
+.bname.on { opacity: .13; transform: translate(-50%, -50%); transition-delay: .2s; }
+
+.bag-glow {
+  position: absolute; left: 50%; top: 52%; width: 72vh; height: 72vh; border-radius: 50%; pointer-events: none; opacity: 0;
+  transform: translate(-50%, -50%) translateX(var(--gx, 0px)); transition: opacity 1.2s var(--smart), transform 1.3s var(--smart);
+  background: radial-gradient(circle, var(--blend-glow, rgba(200, 120, 255, .35)), transparent 62%);
+}
+.blends .sticky:not([data-s="0"]):not([data-s="1"]) .bag-glow { opacity: 1; }
+
+@media (max-width: 720px) {
+  .blend { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 8vh); width: auto; right: 0; }
+  .blend.alt { left: 0; }
+  .blend h2 { font-size: clamp(2.4rem, 10.5vw, 3rem); }
+  .blend .note { font-size: 1.02rem; margin: .45rem 0 1.1rem; }
+  .spec { grid-template-columns: 7.4rem minmax(0, 1fr); padding: .55rem 0; gap: .8rem; }
+  .blend-bags { right: 0; left: 0; top: 10vh; width: 100%; height: 50vh; transform: none; }
+  .bbag { height: 46vh; }
+  .bag-glow { width: 54vh; height: 54vh; }
+  .bname { font-size: 36vw; top: 62%; }
+  .range-title { top: calc(var(--scene-top) + 4vh); bottom: auto; font-size: 2.3rem; padding-inline: var(--gut); }
+  .blends .sticky { --ctr-top: 63vh; --ctr-h: 9vh; }
+  .cbean { left: var(--xm, var(--x)); top: var(--ym, var(--y)); width: calc(var(--w) * .7); }
+  .btag { font-size: .58rem; letter-spacing: .14em; }
+  .btag i { display: none; }
+}
+@media (max-height: 820px) and (min-width: 721px) {
+  .spec { padding: .6rem 0; }
+  .blend { bottom: 10vh; }
+  .blend h2 { font-size: clamp(3rem, 5.6vw, 6rem); }
+  .blend .note { margin-bottom: 1.4rem; }
+}
+
+/* reduced motion: one blend at rest, no film */
+.rm .blends { height: auto; margin-top: 0; }
+.rm .blends .sticky { position: relative; }
+.rm .blend-dark, .rm .range-title, .rm .bnames { display: none; }
+.rm .blends .sticky * { transition: none !important; }

@@ -1,0 +1,150 @@
+/* Brewing loader: a line-drawn espresso machine that makes one cup every 6 s */
+html.pl-lock, html.pl-lock body { overflow: hidden; }
+
+.pl {
+  --pl-loop: 6s;                 /* one full brew */
+  --pl-coffee: #6b3a1e;
+  --pl-crema: #e6b688;
+  --pl-stream: #c8834f;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(60% 50% at 50% 48%, #2a1a0e 0%, #140c06 70%);
+  color: #f3e7d6;
+  transition: opacity .6s cubic-bezier(.25,1,.5,1), visibility .6s;
+}
+.pl.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.pl-center { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+
+.pl-scene {
+  width: 112px;
+  height: auto;
+  overflow: visible;
+  animation: plClock var(--pl-loop) linear infinite; /* the clock the step labels follow */
+}
+.pl-line { fill: none; stroke: #f3e7d6; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.pl-label {
+  margin: 0;
+  font: 700 11px/1 "Lato", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(243,231,214,.6);
+}
+
+/* the count, small, bottom right */
+.pl-count {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  font: 700 11px/1 "Lato", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: .18em;
+  color: rgba(243,231,214,.6);
+  font-variant-numeric: tabular-nums;
+}
+/* hairline progress bar along the bottom */
+.pl-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: #c8834f;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ---------- Scene parts ---------- */
+/* the machine draws itself once */
+.pl-draw    { stroke-dasharray: 1; stroke-dashoffset: 1; animation: plDraw 1s cubic-bezier(.65,0,.35,1) forwards; }
+
+.pl-bean    { animation: plBean var(--pl-loop) ease-in infinite; }
+.pl-machine { animation: plShake var(--pl-loop) linear infinite; }
+.pl-gear    { stroke-dasharray: 2.6 2.2; transform-box: fill-box; transform-origin: center;
+              animation: plGrind var(--pl-loop) cubic-bezier(.45,0,.55,1) infinite; }
+.pl-led     { opacity: .2; animation: plLed var(--pl-loop) linear infinite; }
+.pl-pf      { transform-box: view-box; transform-origin: 60px 69px;
+              animation: plPf var(--pl-loop) cubic-bezier(.65,0,.35,1) infinite; }
+.pl-cup     { animation: plCup var(--pl-loop) cubic-bezier(.65,0,.35,1) infinite; }
+.pl-drop    { opacity: 0; animation: plDrop var(--pl-loop) ease-in infinite; }
+.pl-stream  { stroke-dasharray: 30 30; stroke-dashoffset: 30; animation: plStream var(--pl-loop) linear infinite; }
+.pl-liquid  { transform: translateY(22px); animation: plLiquid var(--pl-loop) ease-in-out infinite; }
+.pl-steam   { stroke-width: 1.5; opacity: 0; animation: plSteam var(--pl-loop) ease-out infinite; }
+
+/* ---------- loaded (and reduced motion): the coffee is ready ---------- */
+.pl.is-done .pl-anim,   .pl.is-static .pl-anim   { animation: none; }
+.pl.is-done .pl-pf,     .pl.is-static .pl-pf     { transform: none; opacity: 1; }
+.pl.is-done .pl-cup,    .pl.is-static .pl-cup    { transform: none; opacity: 1; }
+.pl.is-done .pl-liquid, .pl.is-static .pl-liquid { transform: translateY(4.4px); }
+.pl.is-done .pl-led,    .pl.is-static .pl-led    { opacity: 1; }
+.pl.is-done .pl-off,    .pl.is-static .pl-off    { opacity: 0; }
+.pl.is-static .pl-draw { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+.pl.is-done .pl-steam  { animation: plSteamIdle 1.2s ease-out infinite; }
+
+/* ---------- Keyframes (6s loop) ---------- */
+@keyframes plClock { from { opacity: 1; } to { opacity: 1; } }
+@keyframes plDraw  { to { stroke-dashoffset: 0; } }
+
+/* 1. beans into the hopper */
+@keyframes plBean {
+  0%       { transform: translateY(0);    opacity: 0; }
+  2%       { opacity: 1; }
+  11%      { transform: translateY(24px); opacity: 1; }
+  13%,100% { transform: translateY(24px); opacity: 0; }
+}
+/* 2. grinding */
+@keyframes plShake {
+  0%,12%,36%,100%     { transform: translate(0,0); }
+  14%,18%,22%,26%,30%,34% { transform: translate(-.6px,0); }
+  16%,20%,24%,28%,32% { transform: translate(.6px,0); }
+}
+@keyframes plGrind { 0%,12% { transform: rotate(0); } 36%,100% { transform: rotate(720deg); } }
+
+/* 3. portafilter slides in and twists to lock */
+@keyframes plPf {
+  0%,34%  { transform: translate(-16px,5px) rotate(-12deg); opacity: 0; }
+  37%     { opacity: 1; }
+  40%     { transform: translate(0,5px) rotate(-12deg); }
+  44%,93% { transform: translate(0,0) rotate(0); opacity: 1; }
+  97%     { transform: translate(0,5px) rotate(-12deg); opacity: 0; }
+  100%    { transform: translate(-16px,5px) rotate(-12deg); opacity: 0; }
+}
+/* 4. cup slides in and out */
+@keyframes plCup {
+  0%,40%  { transform: translateX(28px); opacity: 0; }
+  43%     { opacity: 1; }
+  48%,93% { transform: translateX(0); opacity: 1; }
+  98%,100%{ transform: translateX(28px); opacity: 0; }
+}
+/* 5. brewing: led, drops, stream, cup fill */
+@keyframes plLed { 0%,47% { opacity: .2; } 49%,80% { opacity: 1; } 83%,100% { opacity: .2; } }
+@keyframes plDrop {
+  0%,48%   { transform: translateY(0);    opacity: 0; }
+  48.5%    { opacity: 1; }
+  52%      { transform: translateY(28px); opacity: 1; }
+  52.5%,100% { transform: translateY(28px); opacity: 0; }
+}
+@keyframes plStream {
+  0%,53%   { stroke-dashoffset: 30; }
+  57%,76%  { stroke-dashoffset: 0; }
+  81%,100% { stroke-dashoffset: -30; }
+}
+@keyframes plLiquid {
+  0%,51%  { transform: translateY(22px); }
+  80%,93% { transform: translateY(4.4px); }
+  100%    { transform: translateY(22px); }
+}
+/* 6. steam */
+@keyframes plSteam {
+  0%,80%   { opacity: 0; transform: translateY(4px); }
+  85%      { opacity: .8; }
+  94%,100% { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes plSteamIdle {
+  0%   { opacity: 0; transform: translateY(4px); }
+  40%  { opacity: .8; }
+  100% { opacity: 0; transform: translateY(-6px); }
+}

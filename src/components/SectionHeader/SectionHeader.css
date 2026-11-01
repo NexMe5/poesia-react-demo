@@ -1,0 +1,11 @@
+/* section header: label then title, revealed the same way everywhere */
+.sh { position: relative; z-index: 6; }
+.sh .label { display: block; color: var(--copper-l); margin-bottom: var(--s5); }
+.js .sh .label { opacity: 0; transform: translateY(12px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.js .sh .line > span { transform: translateY(150%); transition: transform 1.25s var(--ease); }
+.js .sh .line:nth-child(2) > span { transition-delay: .09s; }
+.js .sh .line:nth-child(3) > span { transition-delay: .18s; }
+.js .sh.in .label { opacity: 1; transform: none; }
+.js .sh.in .line > span { transform: none; }
+.rm .sh .label { opacity: 1; transform: none; }
+.rm .sh .line > span { transform: none; }

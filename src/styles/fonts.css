@@ -1,0 +1,6 @@
+/* Self-hosted, Latin subsets of the three brand faces (SIL Open Font License). */
+@font-face { font-family: "Libre Baskerville"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/libre-baskerville-400.woff") format("woff"); }
+@font-face { font-family: "Libre Baskerville"; font-style: normal; font-weight: 700; font-display: swap; src: url("../assets/fonts/libre-baskerville-700.woff") format("woff"); }
+@font-face { font-family: "Lato"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/lato-400.woff") format("woff"); }
+@font-face { font-family: "Lato"; font-style: normal; font-weight: 700; font-display: swap; src: url("../assets/fonts/lato-700.woff") format("woff"); }
+@font-face { font-family: "Pinyon Script"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/pinyon-script-400.woff") format("woff"); }

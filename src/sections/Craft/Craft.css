@@ -1,0 +1,59 @@
+/* ---------- II · Craft: three chapters around one pinned bag ---------- */
+.craft { height: 460vh; background: var(--paper); color: var(--ink); z-index: 1; }
+.craft .sticky { background: var(--sunlit); }
+/* window light and shade, as on the hero (painted identically on the blends' opening ground) */
+.craft .sticky::before { content: ""; position: absolute; inset: -15%; background: var(--window-light); opacity: .9; pointer-events: none; }
+.craft .sticky::after { content: ""; position: absolute; inset: -15%; background: var(--window-shade); pointer-events: none; }
+.craft-head { position: absolute; top: var(--scene-top); left: 0; right: 0; }
+.craft-head .label { color: var(--clay); margin-top: 0; }
+
+.giant { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.giant span {
+  position: absolute; left: 50%; top: 50%; white-space: nowrap; padding: .06em .02em;
+  font: 700 var(--fs)/.9 var(--f-display); text-transform: uppercase; letter-spacing: -.035em;
+  background: var(--roast-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  transform: translate(-50%, -50%); opacity: 0; will-change: transform, opacity;
+  filter: drop-shadow(0 16px 26px rgba(110, 62, 26, .2));
+}
+.orbit { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.orbit img {
+  position: absolute; left: 50%; top: 50%; width: var(--w); height: auto; max-width: none; z-index: 4; opacity: 0;
+  filter: drop-shadow(0 16px 12px rgba(60, 30, 10, .34)); will-change: transform, opacity;
+}
+.orbit img.back { z-index: 2; filter: drop-shadow(0 10px 10px rgba(60, 30, 10, .22)) brightness(.86) blur(.6px); }
+.craft-bag {
+  position: absolute; left: 50%; top: 50%; height: min(62vh, 100vw); width: auto; max-width: none; z-index: 3;
+  transform: translate(-50%, -50%); will-change: transform;
+  filter: drop-shadow(0 46px 38px rgba(70, 38, 14, .34)) drop-shadow(0 8px 12px rgba(70, 38, 14, .24));
+}
+.craft-floor {
+  position: absolute; left: 50%; top: calc(50% + min(31vh, 50vw)); width: min(36vh, 52vw); height: 6vh; z-index: 2; pointer-events: none;
+  transform: translate(-50%, -50%); background: radial-gradient(closest-side, rgba(80, 45, 18, .32), transparent);
+}
+.pillar { position: absolute; left: 0; bottom: 9vh; width: min(36vw, 480px); z-index: 5; opacity: 0; will-change: transform, opacity; }
+.pillar h3 { font: 400 clamp(2.6rem, 4.2vw, 4.4rem)/1.1 var(--f-script); color: var(--clay); margin: 0; padding: .1em 0; }
+.pcard {
+  position: absolute; right: max(var(--gut), env(safe-area-inset-right, 0px)); bottom: 8vh; width: min(17vw, 240px); z-index: 5;
+  margin: 0; padding: 8px 8px 38px; background: #fffdf9; opacity: 0; will-change: transform, opacity;
+  box-shadow: 0 30px 54px -18px rgba(70, 38, 14, .42), 0 2px 6px rgba(70, 38, 14, .16);
+}
+.pcard img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+.pcard figcaption {
+  position: absolute; left: 12px; right: 12px; bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font: 400 clamp(1rem, 1.5vw, 1.4rem)/1 var(--f-script); color: var(--bark);
+}
+
+/* phones: the copper word sits above the bag so it reads whole */
+@media (max-width: 720px) {
+  .giant span { top: 31%; font-size: var(--fs); }
+  .orbit img { top: 58%; width: calc(var(--w) * .72); }
+  .craft-bag { top: 58%; height: 36vh; }
+  .craft-floor { top: calc(58% + 18vh); width: 28vh; }
+  .pillar { left: 0; right: 0; width: auto; bottom: 5vh; }
+  .pillar h3 { font-size: 2.4rem; padding-right: 34vw; }
+  .pcard { width: 28vw; bottom: 6vh; padding: 5px 5px 24px; }
+  .pcard figcaption { font-size: .8rem; left: 6px; right: 6px; bottom: 5px; }
+}
+
+.rm .craft { height: auto; }
+.rm .craft .sticky { position: relative; }

@@ -1,0 +1,41 @@
+.menu {
+  position: fixed; inset: 0; z-index: 58; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 90px) var(--gut) calc(env(safe-area-inset-bottom, 0px) + 90px);
+  background: var(--sunlit); color: var(--ink);
+  clip-path: inset(0 0 100% 0); visibility: hidden;
+  transition: clip-path .75s var(--ease), visibility 0s .75s;
+}
+.menu.open { clip-path: inset(0); visibility: visible; transition: clip-path .75s var(--ease), visibility 0s; }
+.menu .leaves { z-index: 0; }
+
+.menu-links { position: relative; z-index: 1; display: grid; border-top: 1px solid rgba(38, 23, 14, .14); }
+.menu-links a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: clamp(.75rem, 1.9vh, 1.05rem) .1rem; border-bottom: 1px solid rgba(38, 23, 14, .14);
+  font: 400 clamp(1.55rem, 6.6vw, 2.4rem)/1.2 var(--f-display); letter-spacing: -.02em; color: var(--ink); text-decoration: none;
+  opacity: 0; transform: translateY(26px); transition: opacity .5s, transform .8s var(--ease), color .3s;
+}
+.menu-links a em { font-family: var(--f-script); font-style: normal; font-size: 1.3em; line-height: .8; color: var(--clay); }
+.menu-links a:hover, .menu-links a:focus-visible { color: var(--clay); }
+.m-arrow {
+  flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(38, 23, 14, .26);
+  display: grid; place-items: center; transition: transform .45s var(--ease), background .3s, border-color .3s, color .3s;
+}
+.m-arrow svg { width: 16px; height: 16px; }
+.menu-links a:hover .m-arrow, .menu-links a:focus-visible .m-arrow, .menu-links a:active .m-arrow {
+  transform: rotate(-45deg); background: var(--clay); border-color: var(--clay); color: var(--paper);
+}
+.menu.open .menu-links a { opacity: 1; transform: none; }
+.menu.open .menu-links a:nth-child(1) { transition-delay: .18s; }
+.menu.open .menu-links a:nth-child(2) { transition-delay: .23s; }
+.menu.open .menu-links a:nth-child(3) { transition-delay: .28s; }
+.menu.open .menu-links a:nth-child(4) { transition-delay: .33s; }
+
+.menu-foot {
+  position: absolute; z-index: 1; left: var(--gut); right: var(--gut); bottom: calc(env(safe-area-inset-bottom, 0px) + var(--s6));
+  display: flex; justify-content: space-between; gap: var(--s4); padding-top: var(--s4);
+  border-top: 1px solid rgba(38, 23, 14, .14); opacity: 0; transition: opacity .6s .45s;
+}
+.menu.open .menu-foot { opacity: 1; }
+.menu-foot a { font: var(--label); letter-spacing: var(--track); text-transform: uppercase; color: rgba(38, 23, 14, .66); text-decoration: none; padding: .6em 0; }

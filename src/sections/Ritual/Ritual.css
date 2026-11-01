@@ -1,0 +1,18 @@
+/* ---------- V · Ritual ---------- */
+.ritual { height: 250vh; background: var(--espresso); color: var(--cream); }
+.ritual-media { position: absolute; inset: 0; clip-path: circle(20vmin at 50% 52%); will-change: clip-path; }
+.ritual-media img { width: 100%; height: 100%; object-fit: cover; object-position: 35% 60%; transform: scale(1.3); will-change: transform; }
+.ritual-shade { position: absolute; inset: 0; opacity: 0; background: linear-gradient(90deg, rgba(20, 12, 6, 0) 30%, rgba(20, 12, 6, .8) 70%); }
+.ritual-quote { position: absolute; top: 50%; right: 0; width: min(50vw, 760px); transform: translateY(-50%); margin: 0; }
+.ritual-quote .line > span { white-space: nowrap; }
+
+@media (max-width: 720px) {
+  .ritual-shade { background: linear-gradient(180deg, rgba(20, 12, 6, 0) 25%, rgba(20, 12, 6, .88) 70%); }
+  .ritual-quote { top: auto; bottom: 10vh; transform: none; width: auto; left: 0; }
+  .ritual-media img { object-position: 30% 50%; }
+  .ritual-quote .line > span { white-space: normal; }
+}
+
+.rm .ritual { height: auto; }
+.rm .ritual .sticky { position: relative; }
+.rm .ritual-shade { opacity: 1; }

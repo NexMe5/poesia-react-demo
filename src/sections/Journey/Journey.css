@@ -1,0 +1,37 @@
+/* ---------- VI · The journey (horizontal) ---------- */
+.journey { background: var(--espresso); color: var(--cream); }
+.journey .sticky { display: flex; align-items: center; background: radial-gradient(70% 60% at 30% 45%, #24160b, var(--espresso) 72%); }
+.journey-track {
+  position: relative; z-index: 1; display: flex; align-items: center; gap: clamp(28px, 4vw, 72px); will-change: transform;
+  padding-left: max(var(--gut), env(safe-area-inset-left, 0px)); padding-right: 14vw;
+}
+.jcard { flex: 0 0 auto; width: min(30vw, 500px); display: grid; margin: 0; }
+.jcard figure { margin: 0; aspect-ratio: 4/5; max-height: 68vh; overflow: hidden; border-radius: 2px; background: #24150b; position: relative; }
+.jcard figure::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(20, 12, 6, .7)); pointer-events: none; }
+.jcard figure img { position: absolute; top: 0; left: -10%; width: 120%; height: 100%; max-width: none; object-fit: cover; will-change: transform; }
+/* the title sits on the photo's lower edge */
+.jcard h3 {
+  position: relative; z-index: 2; margin: -1.75em 0 0; padding: 0 .75em;
+  font: 400 clamp(1.6rem, 2.3vw, 2.4rem)/1.1 var(--f-display); letter-spacing: -.01em; color: var(--cream); text-shadow: 0 2px 18px rgba(0, 0, 0, .65);
+}
+.jintro { width: min(30vw, 500px); align-self: center; }
+.journey .sh .line { padding-inline: .3em; margin-inline: -.3em; }   /* room for the script j's swash */
+.jcard:not(.jintro) > .label { color: var(--cream-muted); padding: 1.1rem .1rem 0 calc(.75 * clamp(1.6rem, 2.3vw, 2.4rem)); }
+/* the roast and the machine are cut-outs, lit on the same warm studio ground as the equipment chapter */
+.jcard.studio figure { background: radial-gradient(75% 60% at 50% 62%, #5a3419 0%, #2a180c 55%, #160d07 100%); }
+.jcard.studio figure::before { content: ""; position: absolute; left: 12%; right: 12%; bottom: 10%; height: 10%; background: radial-gradient(closest-side, rgba(0, 0, 0, .65), transparent); }
+.jcard.studio figure img { top: auto; bottom: 12%; left: 10%; width: 80%; height: auto; object-fit: contain; filter: drop-shadow(0 26px 24px rgba(0, 0, 0, .6)); }
+.jcard.studio:nth-of-type(3) figure img { left: 6%; width: 88%; bottom: 22%; }
+
+@media (max-width: 980px) {
+  .jcard, .jintro { width: min(46vw, 460px); }
+}
+@media (max-width: 720px) {
+  .jcard { width: 72vw; }
+  .jintro { width: 68vw; }
+  .jcard figure { max-height: 60vh; }
+}
+
+.rm .journey { height: auto !important; }
+.rm .journey .sticky { position: relative; overflow-x: auto; }
+.rm .journey-track { padding-block: 16vh; }

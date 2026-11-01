@@ -1,0 +1,17 @@
+/* ---------- I · Origin ---------- */
+/* overlaps the hero's exit, so the cream pause between them is short */
+.origin { height: 270vh; background: var(--espresso); color: var(--cream); margin-top: -45vh; z-index: 2; }
+.origin-media { position: absolute; inset: 0; clip-path: inset(22% 32% 22% 32% round 28px); will-change: clip-path; }
+.origin-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; transform: scale(1.35); will-change: transform; }
+.origin-shade { position: absolute; inset: 0; opacity: 0; background: linear-gradient(180deg, rgba(20, 12, 6, .55) 0%, rgba(20, 12, 6, .05) 36%, rgba(20, 12, 6, .86) 100%); }
+.origin-copy { position: absolute; left: 0; right: 0; bottom: 11vh; }
+.origin-copy .label { color: var(--copper-l); margin-bottom: 1.2rem; }
+.origin-title { font-size: clamp(2.4rem, 4.8vw, 5rem); line-height: 1.04; }
+
+@media (max-width: 720px) {
+  .origin-copy { bottom: 9vh; }
+  .origin-title { font-size: clamp(2.2rem, 9.4vw, 2.8rem); }
+}
+
+.rm .origin { height: auto; margin-top: 0; }
+.rm .origin .sticky { position: relative; }

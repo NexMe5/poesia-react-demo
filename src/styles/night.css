@@ -1,0 +1,15 @@
+/* Night room: the same window and plant as the cream chapters, now lit by a warm lamp after dark.
+   Used by the journey, equipment and contact chapters. */
+.night::before {
+  content: ""; position: absolute; inset: -15%; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(118deg, transparent 0 6.3%, rgba(255, 176, 98, .055) 9.95% 11.55%, transparent 15.2% 23%);
+}
+.night::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--espresso) 0, rgba(20, 12, 6, 0) 15%, rgba(20, 12, 6, 0) 85%, var(--espresso) 100%),
+    radial-gradient(52% 50% at 80% 22%, rgba(226, 150, 78, .3), rgba(222, 146, 74, .1) 48%, transparent 74%),
+    radial-gradient(40% 36% at 6% 96%, rgba(222, 146, 74, .09), transparent 70%);
+}
+.night .leaves { z-index: 0; mix-blend-mode: multiply; }
+.night .leaves g { fill: #0b0603; }

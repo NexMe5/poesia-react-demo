@@ -1,0 +1,24 @@
+{
+  "name": "poesia-coffee",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Poesia: premium Indian coffee roasted in Goa. Scroll-driven storytelling landing page.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build:spa": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "vite": "^6.3.5"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}

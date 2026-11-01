@@ -1,0 +1,6 @@
+.nf { min-height: 100vh; min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: var(--s5); text-align: center; background: var(--sunlit); color: var(--ink); }
+.nf-emb { width: 64px; height: auto; }
+.nf .label { color: var(--clay); }
+.nf .t-title { color: var(--ink); }
+.nf .t-title em { color: var(--clay); }
+.nf-text { max-width: 36ch; color: var(--muted); margin-bottom: var(--s3); }
