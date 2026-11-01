@@ -69,10 +69,12 @@ The site is one React app with a small router (`src/router/`). Each URL renders 
 | anything else | `pages/NotFoundPage.jsx` | 404 |
 
 - **Adding a page.** Create a component in `src/pages/` and add one line to `src/router/routes.js`.
-- **Code splitting.** Pages are lazy-loaded, so each is its own chunk. Someone opening the Privacy Policy
-  never downloads the scroll film.
-- **Moving between pages.** Navigation runs as a React transition: the current page stays on screen until
-  the next one is ready. Back returns to where you were.
+- **Styles ship with the HTML.** All pages are bundled into one app on purpose. Their CSS then lands in the
+  single stylesheet that is linked from `<head>`, so every prerendered page is styled from its first paint and
+  the home page opens straight on the loader. `scripts/prerender.mjs` checks this and fails the build if a
+  page's styles are missing.
+- **Moving between pages.** Navigation runs as a React transition, so there's no blank frame between pages.
+  Back returns to where you were.
 - **The loader** plays once per visit. Coming back to the home page from another page skips it.
 - **Legal pages.** Both use `pages/legal/LegalLayout.jsx`, and their text lives in `pages/legal/content/`.
   Footer chapter links on a legal page open the story at that chapter (for example `/#equipment`).

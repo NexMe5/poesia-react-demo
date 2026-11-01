@@ -1,4 +1,4 @@
-import { Suspense, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { RouterProvider, useRouter } from './router/Router';
 import { ROUTES, NotFoundPage } from './router/routes';
 
@@ -19,9 +19,7 @@ function CurrentPage() {
 export default function App({ path }) {
   return (
     <RouterProvider initialPath={path}>
-      <Suspense fallback={null}>
-        <CurrentPage />
-      </Suspense>
+      <CurrentPage />
     </RouterProvider>
   );
 }

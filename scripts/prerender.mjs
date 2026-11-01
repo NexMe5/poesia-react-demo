@@ -24,6 +24,20 @@ if (!process.env.SITE_URL && !fromVercel) {
 const { render, seoFor, SITEMAP, structuredData } = await import(pathToFileURL(serverEntry).href);
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 
+// Safety net: every page must be styled by the stylesheet(s) linked in <head>, or it would flash unstyled
+// before its JavaScript arrives. Fail the build rather than publish that.
+const linkedCss = [...template.matchAll(/<link[^>]+rel="stylesheet"[^>]*href="([^"]+)"/g)]
+  .map((m) => fs.readFileSync(path.join(dist, m[1].replace(/^\//, '')), 'utf8'))
+  .join('\n');
+const MUST_STYLE = { '/': ['.pl{', '.prologue{', '.nav{'], '/privacy-policy': ['.legal{'], '/terms': ['.legal{'], 404: ['.nf{'] };
+const flat = linkedCss.replace(/\s+/g, '');
+for (const [route, selectors] of Object.entries(MUST_STYLE)) {
+  const missing = selectors.filter((sel) => !flat.includes(sel));
+  if (missing.length) {
+    throw new Error(`[prerender] ${route}: ${missing.join(' ')} not found in the stylesheet linked from index.html — the page would render unstyled before its JavaScript loads.`);
+  }
+}
+
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 function head(route) {

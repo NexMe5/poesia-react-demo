@@ -1,13 +1,18 @@
-import { lazy } from 'react';
+import HomePage from '../pages/HomePage';
+import PrivacyPolicyPage from '../pages/PrivacyPolicyPage';
+import TermsPage from '../pages/TermsPage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 /**
- * Every page of the site. Each page is its own code chunk: a visitor opening the Privacy Policy
- * never downloads the scroll film, and the story never waits for the legal text.
+ * Every page of the site. Pages are bundled together on purpose: their styles then ship in the one
+ * stylesheet linked from the HTML <head>, so a prerendered page is fully styled from its very first paint
+ * (the home page opens straight on the loader). Lazy-loading a page would move its CSS into a JS chunk that
+ * arrives after the HTML, and the page would flash unstyled.
  */
 export const ROUTES = {
-  '/': lazy(() => import('../pages/HomePage')),
-  '/privacy-policy': lazy(() => import('../pages/PrivacyPolicyPage')),
-  '/terms': lazy(() => import('../pages/TermsPage')),
+  '/': HomePage,
+  '/privacy-policy': PrivacyPolicyPage,
+  '/terms': TermsPage,
 };
 
-export const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
+export { NotFoundPage };
