@@ -18,19 +18,23 @@ function Journey() {
     const track = q(section, '.journey-track');
     const photos = qa(section, '.jcard:not(.studio) figure img');
     let distance = 0;
+    let centers = [];   // each photo frame's centre within the track, measured in size()
+    let trackLeft = 0;
     return {
       lag: 0.12,
       render(p) {
-        track.style.transform = `translate3d(${-distance * p}px,0,0)`;
+        const shift = -distance * p;
+        track.style.transform = `translate3d(${shift}px,0,0)`;
         const vw = window.innerWidth;
-        photos.forEach((photo) => {
-          const f = photo.parentElement.getBoundingClientRect();
-          const c = (f.left + f.width / 2 - vw / 2) / vw;
+        photos.forEach((photo, i) => {
+          const c = (trackLeft + centers[i] + shift - vw / 2) / vw;
           photo.style.transform = `translate3d(${-c * 8}%,0,0)`;
         });
       },
       // the section is exactly as tall as the track is wide, plus a short rest at the end
       size() {
+        trackLeft = track.offsetLeft;
+        centers = photos.map((photo) => { const f = photo.parentElement; return f.offsetLeft + f.offsetWidth / 2; });
         if (engine.reducedMotion) { section.style.height = ''; return; }
         distance = Math.max(0, track.scrollWidth - window.innerWidth);
         section.style.height = `${distance + window.innerHeight * 1.15}px`;

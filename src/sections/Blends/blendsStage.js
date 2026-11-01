@@ -32,6 +32,7 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
     room: q(section, '.blend-bg'),
     wash: q(section, '.blend-wash'),
   };
+  let sectionTop = 0;   // cached in measure(): never read layout during a scroll frame
   const hand = { dx: 0, dy: 0, s: 1, r: 7 };   // where the craft bag stood, relative to this stage's bag slot
   const slot = { x: 0, y: 0 };                 // this stage's bag slot
   let shot = -1;
@@ -133,6 +134,7 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
   /** Where the craft bag stood and where this stage's slot is, both from layout (transforms ignored). */
   function measure() {
     const craftBag = getCraftBag();
+    sectionTop = section.getBoundingClientRect().top + window.scrollY;
     const b0 = el.bags[0];
     const st = stage.getBoundingClientRect();
     const cr = el.bagsWrap.getBoundingClientRect();
@@ -186,8 +188,8 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
     /** While the section slides over the pinned craft stage its own stage stays hidden; it appears the moment it pins. */
     syncVisibility: (() => {
       let shown = null;
-      return () => {
-        const show = section.getBoundingClientRect().top <= 0.5;
+      return (y) => {
+        const show = sectionTop - y <= 0.5;
         if (show !== shown) { shown = show; stage.style.visibility = show ? 'visible' : 'hidden'; }
       };
     })(),

@@ -14,10 +14,11 @@ let played = false;
 export const introHasPlayed = () => played;
 
 /**
- * Brewing loader. Holds the page (html.pl-lock / html.pl-wait) until every image, the fonts and the
- * painted intro are ready, then fills the cup, fades out and calls `onDone`.
+ * Brewing loader. Always plays one full brew (beans → grind → lock → brew → a full cup). If every image,
+ * the fonts and the painted intro are ready by then, it says Ready and opens; on a slow network it keeps
+ * brewing until they are. It holds the page meanwhile (html.pl-lock / html.pl-wait) and calls `onDone`.
  */
-export default function Preloader({ minMs = 1200, onDone }) {
+export default function Preloader({ onDone }) {
   const rootRef = useRef(null);
   const sceneRef = useRef(null);
   const countRef = useRef(null);
@@ -44,7 +45,6 @@ export default function Preloader({ minMs = 1200, onDone }) {
       countEl: countRef.current,
       barEl: barRef.current,
       labelEl: labelRef.current,
-      minMs,
       onFinish: () => {
         setPhase('done');
         timers.push(setTimeout(() => {
@@ -59,7 +59,7 @@ export default function Preloader({ minMs = 1200, onDone }) {
       },
     });
     return () => { cancel(); timers.forEach(clearTimeout); };
-  }, [minMs]);
+  }, []);
 
   if (phase === 'gone') return null;
 

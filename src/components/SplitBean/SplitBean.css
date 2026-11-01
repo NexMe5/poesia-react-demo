@@ -2,7 +2,9 @@
   position: absolute; inset: -130%; will-change: transform, opacity;
   background: radial-gradient(circle, rgba(255, 150, 70, .4) 0%, rgba(255, 120, 50, .12) 28%, transparent 58%);
 }
-.bean-half {
-  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; will-change: transform;
+/* the half moves (its own layer); the image inside carries the shadows and is drawn once, not every frame */
+.bean-half { position: absolute; inset: 0; will-change: transform; }
+.bean-half img {
+  display: block; width: 100%; height: 100%; max-width: none; object-fit: contain;
   filter: drop-shadow(0 0 1px rgba(255, 190, 130, .55)) drop-shadow(0 0 18px rgba(255, 140, 60, .32)) drop-shadow(0 26px 30px rgba(0, 0, 0, .6));
 }

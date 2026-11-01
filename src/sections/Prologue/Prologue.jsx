@@ -23,18 +23,20 @@ function Prologue() {
           <Leaves />
           <div className="hero-beans" aria-hidden="true">
             {HERO_BEANS.map((b, i) => (
-              <img
+              <div
                 key={i}
                 className={b.low ? 'hb low' : 'hb'}
-                src={b.src}
-                alt=""
                 style={{ left: `${b.left}%`, top: `${b.top}%`, '--w': `${b.width}px`, '--z': b.z }}
-              />
+              >
+                <img src={b.src} alt="" />
+              </div>
             ))}
           </div>
           <div className="hero-bags" aria-hidden="true">
             {HERO_BAGS.map((b) => (
-              <img key={b.key} className={`bag b-${b.key}`} src={b.src} alt="" width={b.width} height={b.height} />
+              <div key={b.key} className={`bag b-${b.key}`}>
+                <img src={b.src} alt="" width={b.width} height={b.height} />
+              </div>
             ))}
           </div>
           <div className="hero-copy wrap">
@@ -65,7 +67,7 @@ function Prologue() {
             <SplitBean>
               <div className="chips">
                 {BEAN_CHIPS.map((c, i) => (
-                  <img key={i} className="chip" src={c.src} alt="" style={{ '--s': `${c.size}px` }} />
+                  <div key={i} className="chip" style={{ '--s': `${c.size}px` }}><img src={c.src} alt="" /></div>
                 ))}
               </div>
             </SplitBean>

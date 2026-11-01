@@ -69,7 +69,9 @@ function Blends() {
           <div className="bag-glow" />
           {BLENDS.map((b) => <i key={b.id} className="bshadow" />)}
           {BLENDS.map((b) => (
-            <img key={b.id} className="bbag" src={b.bag.src} alt="" width={b.bag.width} height={b.bag.height} style={{ '--bd': b.bag.breathe }} />
+            <div key={b.id} className="bbag" style={{ '--bd': b.bag.breathe }}>
+              <img src={b.bag.src} alt="" width={b.bag.width} height={b.bag.height} />
+            </div>
           ))}
         </div>
         {BLENDS.map((b) => <BlendCopy key={b.id} blend={b} />)}

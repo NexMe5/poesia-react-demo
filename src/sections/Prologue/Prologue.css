@@ -6,10 +6,11 @@
 .hero-light { position: absolute; inset: -15%; background: var(--window-light); opacity: .9; pointer-events: none; }
 .hero-shade { position: absolute; inset: -15%; background: var(--window-shade); pointer-events: none; }
 .hero-beans { position: absolute; inset: 0; z-index: 2; }
-.hero-beans .hb {
-  position: absolute; width: var(--w); height: auto; max-width: none; z-index: var(--z, 1);
-  filter: drop-shadow(0 14px 12px rgba(60, 30, 10, .32)); will-change: transform, opacity;
-}
+/* Performance pattern used for every moving cut-out with a shadow: the wrapper moves (its own GPU layer),
+   the image inside carries the shadow and is drawn into that layer once. Putting the shadow on the moving
+   element itself made the browser re-blur it on every scroll frame. */
+.hero-beans .hb { position: absolute; width: var(--w); z-index: var(--z, 1); will-change: transform, opacity; }
+.hero-beans .hb img { display: block; width: 100%; height: auto; max-width: none; filter: drop-shadow(0 14px 12px rgba(60, 30, 10, .32)); }
 /* the four bags fan out in front of the headline; the fan is sized from the bags themselves
    (--bh = the tallest bag), so it stays equally tight on every screen */
 .hero-bags {
@@ -19,8 +20,9 @@
   animation: drift 7s ease-in-out infinite alternate;
 }
 @keyframes drift { from { translate: 0 0; } to { translate: 0 -12px; } }
-.bag {
-  position: absolute; height: var(--h); width: auto; max-width: none; transform-origin: 50% 85%; will-change: transform, opacity;
+.bag { position: absolute; height: var(--h); transform-origin: 50% 85%; will-change: transform, opacity; }
+.bag img {
+  display: block; height: 100%; width: auto; max-width: none;
   filter: drop-shadow(0 34px 30px rgba(70, 38, 14, .3)) drop-shadow(0 6px 8px rgba(70, 38, 14, .22));
 }
 .b-classico { --h: calc(var(--bh) * .78); left: 6%; top: 16%; z-index: 1; }
@@ -88,10 +90,10 @@
 .bean-rot { position: absolute; inset: 0; transform: rotate(-12deg); transition: opacity .7s var(--ease), scale 1.5s var(--ease); }
 .chips { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
 .chip {
-  position: absolute; left: 0; top: 0; width: var(--s); height: auto; max-width: none;
-  margin-left: calc(var(--s) / -2); margin-top: calc(var(--s) / -2); opacity: 0;
-  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .5)); will-change: transform, opacity;
+  position: absolute; left: 0; top: 0; width: var(--s);
+  margin-left: calc(var(--s) / -2); margin-top: calc(var(--s) / -2); opacity: 0; will-change: transform, opacity;
 }
+.chip img { display: block; width: 100%; height: auto; max-width: none; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .5)); }
 
 /* intro entrance once the preloader has gone: the bean settles, the letters rise behind it, then the tagline and scroll cue */
 html.pl-wait .wmark { opacity: 0; translate: 0 5vh; }

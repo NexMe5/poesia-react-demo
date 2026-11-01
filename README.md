@@ -159,6 +159,22 @@ public/
 - **Reduced motion.** When the OS asks for less motion, `html.rm` is set. Every scene renders its resting
   state once, and the `.rm` rules in each stylesheet lay the chapters out as normal flow.
 
+### Smooth on slower phones
+
+- **The loader always brews one full cup (~6 s).** If everything is in by then (every image downloaded and
+  decoded, plus the fonts and the intro canvas), it says Ready and opens. On a slow network the machine
+  keeps brewing until everything is in, so a photo is never decoded for the first time mid-scroll. The count
+  shows real progress, and a safety cap opens the page at 20 s. The count and labels follow the CSS
+  animation's own clock, because the machine starts drawing with the prerendered HTML, before the script runs.
+- **Moving cut-outs carry their shadow inside a wrapper.** Bags, beans, chips, the copper words and the orbit
+  beans each sit in a wrapper that moves on its own GPU layer, while the image inside carries the
+  `drop-shadow`. The browser draws each shadow once instead of re-blurring ~35 shadows on every scroll
+  frame. On a 6× slowed phone this cut janky frames from about 5% to about 1%.
+- **No layout reads during a scroll frame.** The header tone, the blends stage and the journey parallax
+  use positions measured once per layout change (`engine.addMeasureHook`).
+- **Address-bar resizes are ignored.** On phones the address bar slides in and out while scrolling, which
+  resizes the window. The stages are sized in `svh`, so the engine skips re-measuring for those resizes.
+
 ### Styling
 
 Styles are plain CSS. Each component keeps its stylesheet next to it, and that stylesheet is imported by the

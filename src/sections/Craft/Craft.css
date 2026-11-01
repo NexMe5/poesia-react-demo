@@ -8,22 +8,22 @@
 .craft-head .label { color: var(--clay); margin-top: 0; }
 
 .giant { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-.giant span {
-  position: absolute; left: 50%; top: 50%; white-space: nowrap; padding: .06em .02em;
+/* each word: the wrapper moves (own layer), the copper text inside carries its shadow, drawn once */
+.giant .gw { position: absolute; left: 50%; top: 50%; white-space: nowrap; transform: translate(-50%, -50%); opacity: 0; will-change: transform, opacity; }
+.giant .gw > span {
+  display: block; white-space: nowrap; padding: .06em .02em;
   font: 700 var(--fs)/.9 var(--f-display); text-transform: uppercase; letter-spacing: -.035em;
   background: var(--roast-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
-  transform: translate(-50%, -50%); opacity: 0; will-change: transform, opacity;
   filter: drop-shadow(0 16px 26px rgba(110, 62, 26, .2));
 }
 .orbit { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.orbit img {
-  position: absolute; left: 50%; top: 50%; width: var(--w); height: auto; max-width: none; z-index: 4; opacity: 0;
-  filter: drop-shadow(0 16px 12px rgba(60, 30, 10, .34)); will-change: transform, opacity;
-}
-.orbit img.back { z-index: 2; filter: drop-shadow(0 10px 10px rgba(60, 30, 10, .22)) brightness(.86) blur(.6px); }
-.craft-bag {
-  position: absolute; left: 50%; top: 50%; height: min(62vh, 100vw); width: auto; max-width: none; z-index: 3;
-  transform: translate(-50%, -50%); will-change: transform;
+.orbit .ob { position: absolute; left: 50%; top: 50%; width: var(--w); z-index: 4; opacity: 0; will-change: transform, opacity; }
+.orbit .ob img { display: block; width: 100%; height: auto; max-width: none; filter: drop-shadow(0 16px 12px rgba(60, 30, 10, .34)); }
+.orbit .ob.back { z-index: 2; }
+.orbit .ob.back img { filter: drop-shadow(0 10px 10px rgba(60, 30, 10, .22)) brightness(.86) blur(.6px); }
+.craft-bag { position: absolute; left: 50%; top: 50%; height: min(62vh, 100vw); z-index: 3; transform: translate(-50%, -50%); will-change: transform; }
+.craft-bag img {
+  display: block; height: 100%; width: auto; max-width: none;
   filter: drop-shadow(0 46px 38px rgba(70, 38, 14, .34)) drop-shadow(0 8px 12px rgba(70, 38, 14, .24));
 }
 .craft-floor {
@@ -45,8 +45,8 @@
 
 /* phones: the copper word sits above the bag so it reads whole */
 @media (max-width: 720px) {
-  .giant span { top: 31%; font-size: var(--fs); }
-  .orbit img { top: 58%; width: calc(var(--w) * .72); }
+  .giant .gw { top: 31%; }
+  .orbit .ob { top: 58%; width: calc(var(--w) * .72); }
   .craft-bag { top: 58%; height: 36vh; }
   .craft-floor { top: calc(58% + 18vh); width: 28vh; }
   .pillar { left: 0; right: 0; width: auto; bottom: 5vh; }

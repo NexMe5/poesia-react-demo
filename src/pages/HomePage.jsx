@@ -45,7 +45,7 @@ export default function HomePage() {
 
   return (
     <>
-      {!introHasPlayed() && <Preloader minMs={1200} onDone={onPreloaderDone} />}
+      {!introHasPlayed() && <Preloader onDone={onPreloaderDone} />}
       <SiteHeader />
       <WhatsAppFloat armed={introDone} />
       <Story />

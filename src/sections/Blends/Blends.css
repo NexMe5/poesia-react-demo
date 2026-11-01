@@ -84,14 +84,21 @@
   background: radial-gradient(closest-side, rgba(45, 22, 6, .55), rgba(45, 22, 6, .22) 55%, transparent);
   transition: transform 1.5s var(--smart), opacity .6s var(--smart);
 }
+/* the bag wrapper moves (own layer); the image inside carries the shadow, drawn once rather than every frame.
+   The image follows the wrapper's per-shot transition delays (inherit), as the single element used to. */
 .bbag {
-  position: absolute; left: 50%; top: 50%; height: 70vh; width: auto; max-width: none; will-change: transform, opacity; transform-origin: 50% 60%;
-  filter: drop-shadow(0 44px 44px rgba(0, 0, 0, .5)) drop-shadow(0 8px 10px rgba(0, 0, 0, .3));
-  transition: transform 1.5s var(--smart), opacity .8s var(--smart), filter 1.2s var(--smart);
+  position: absolute; left: 50%; top: 50%; height: 70vh; will-change: transform, opacity; transform-origin: 50% 60%;
+  transition: transform 1.5s var(--smart), opacity .8s var(--smart);
 }
-.blends .sticky[data-s="1"] .bbag { filter: drop-shadow(0 16px 16px rgba(50, 25, 8, .28)) drop-shadow(0 3px 5px rgba(50, 25, 8, .22)); cursor: pointer; animation: breathe 5.6s ease-in-out var(--bd, 0s) infinite; }
+.bbag img {
+  display: block; height: 100%; width: auto; max-width: none;
+  filter: drop-shadow(0 44px 44px rgba(0, 0, 0, .5)) drop-shadow(0 8px 10px rgba(0, 0, 0, .3));
+  transition: filter 1.2s var(--smart); transition-delay: inherit;
+}
+.blends .sticky[data-s="1"] .bbag { cursor: pointer; animation: breathe 5.6s ease-in-out var(--bd, 0s) infinite; }
+.blends .sticky[data-s="1"] .bbag img { filter: drop-shadow(0 16px 16px rgba(50, 25, 8, .28)) drop-shadow(0 3px 5px rgba(50, 25, 8, .22)); }
 /* the hand-off and range shots keep the craft stage's warm shadow (this rule wins over the lighter one above) */
-.blends .sticky[data-s="0"] .bbag, .blends .sticky[data-s="1"] .bbag { filter: drop-shadow(0 46px 38px rgba(70, 38, 14, .34)) drop-shadow(0 8px 12px rgba(70, 38, 14, .24)); }
+.blends .sticky[data-s="0"] .bbag img, .blends .sticky[data-s="1"] .bbag img { filter: drop-shadow(0 46px 38px rgba(70, 38, 14, .34)) drop-shadow(0 8px 12px rgba(70, 38, 14, .24)); }
 @keyframes breathe { 0%, 100% { scale: 1; } 50% { scale: 1.014; } }
 
 /* beans on the counter: the three from the orbit drop in and settle, two were already lying there */

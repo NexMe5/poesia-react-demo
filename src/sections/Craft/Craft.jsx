@@ -29,13 +29,19 @@ function Craft() {
         <Leaves variant="cl-b" />
         <SectionHeader className="craft-head wrap" label="What makes Poesia special" labelAs="h2" labelId="craft-h" />
         <div className="giant" aria-hidden="true">
-          {CRAFT_CHAPTERS.map((c) => <span key={c.word} style={{ '--fs': c.wordSize }}>{c.word}</span>)}
+          {CRAFT_CHAPTERS.map((c) => (
+            <span key={c.word} className="gw" style={{ '--fs': c.wordSize }}><span>{c.word}</span></span>
+          ))}
         </div>
         <div className="orbit" aria-hidden="true">
-          {ORBIT_BEANS.map((b, i) => <img key={i} src={b.src} alt="" style={{ '--w': `${b.width}px` }} />)}
+          {ORBIT_BEANS.map((b, i) => (
+            <span key={i} className="ob" style={{ '--w': `${b.width}px` }}><img src={b.src} alt="" /></span>
+          ))}
         </div>
         <div className="craft-floor" aria-hidden="true" />
-        <img className="craft-bag" src={img('bag-espresso.webp')} alt="A 1 kg bag of Poesia Espresso Italiano" width="680" height="1147" />
+        <div className="craft-bag">
+          <img src={img('bag-espresso.webp')} alt="A 1 kg bag of Poesia Espresso Italiano" width="680" height="1147" />
+        </div>
         {CRAFT_CHAPTERS.map((c) => (
           <article key={c.pillar} className="pillar wrap"><h3>{c.pillar}</h3></article>
         ))}

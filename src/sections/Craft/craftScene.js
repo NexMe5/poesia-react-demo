@@ -10,8 +10,8 @@ const ORBIT_START = [20, 140, 255];
  * at the end they drop away and only the bag stays, ready to hand over to the blends.
  */
 export function createCraftScene(root, { reducedMotion }) {
-  const giants = qa(root, '.giant span');
-  const beans = qa(root, '.orbit img');
+  const giants = qa(root, '.giant .gw');
+  const beans = qa(root, '.orbit .ob');
   const bag = q(root, '.craft-bag');
   const pillars = qa(root, '.pillar');
   const cards = qa(root, '.pcard');
@@ -20,7 +20,6 @@ export function createCraftScene(root, { reducedMotion }) {
   const orb = { p: 0, o: 0, dy: 0, drop: 0, bh: 0, back: [] };
   let alive = true;
   let raf = 0;
-  let timer = 0;
 
   function drawOrbit(now) {
     // seen from a little above: the far side passes behind the bag's top, the near side crosses its middle
@@ -43,16 +42,19 @@ export function createCraftScene(root, { reducedMotion }) {
     });
   }
 
-  // the ring keeps turning while the stage is on screen; off screen it only checks back now and then
-  if (!reducedMotion) {
-    const loop = (now) => {
-      if (!alive) return;
-      const r = root.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0 && orb.o > 0.001) { drawOrbit(now); raf = requestAnimationFrame(loop); }
-      else timer = setTimeout(() => { raf = requestAnimationFrame(loop); }, 300);
-    };
+  // the ring keeps turning only while the stage is on screen (an observer says when; no layout reads per frame)
+  let onScreen = false;
+  const io = reducedMotion ? null : new IntersectionObserver(([e]) => {
+    onScreen = e.isIntersecting;
+    if (onScreen && !raf) raf = requestAnimationFrame(loop);
+  });
+  function loop(now) {
+    raf = 0;
+    if (!alive || !onScreen) return;
+    if (orb.o > 0.001) drawOrbit(now);
     raf = requestAnimationFrame(loop);
   }
+  if (io) io.observe(root);
 
   const render = (p) => {
     const e = ease.out(clamp(1 + p / 0.75));   // entrance plays while the cream scrolls up, so it never arrives empty
@@ -104,6 +106,6 @@ export function createCraftScene(root, { reducedMotion }) {
   return {
     render,
     size() { orb.bh = bag.offsetHeight; },
-    dispose() { alive = false; cancelAnimationFrame(raf); clearTimeout(timer); },
+    dispose() { alive = false; cancelAnimationFrame(raf); if (io) io.disconnect(); },
   };
 }

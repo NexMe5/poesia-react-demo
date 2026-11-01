@@ -20,6 +20,7 @@ function createScrollEngine({ reducedMotion }) {
   let scenes = [];
   const frameHooks = new Set();
   const resizeHooks = new Set();
+  const measureHooks = new Set();
   let looping = false;
   let idle = 0;
   let lastY = -1;
@@ -59,6 +60,8 @@ function createScrollEngine({ reducedMotion }) {
       s.h = s.el.offsetHeight;
       s.len = Math.max(1, s.h - vh);
     }
+    // layout is read here, once, never during a scroll frame (reading it after writing styles forces a reflow)
+    measureHooks.forEach((fn) => fn());
     wake();
   }
 
@@ -112,6 +115,12 @@ function createScrollEngine({ reducedMotion }) {
     return () => frameHooks.delete(fn);
   }
 
+  /** Layout to cache after every measure (section bands, offsets), so frame hooks never read layout. */
+  function addMeasureHook(fn) {
+    measureHooks.add(fn);
+    return () => measureHooks.delete(fn);
+  }
+
   /** Work to redo when the viewport changes, before scenes are measured again. */
   function addResizeHook(fn) {
     resizeHooks.add(fn);
@@ -144,7 +153,20 @@ function createScrollEngine({ reducedMotion }) {
       clearTimeout(timer);
       timer = setTimeout(() => { resizeHooks.forEach((fn) => fn()); measure(); }, 120);
     };
-    listen(window, 'resize', remeasure);
+    // Phones resize the window whenever the address bar slides in or out while scrolling. The stages are
+    // sized in svh and don't change, so re-measuring then would only stall the scroll: react to width
+    // changes (rotation, desktop resizing) and to real height changes only.
+    let lastW = window.innerWidth;
+    let lastH = window.innerHeight;
+    const touch = window.matchMedia('(pointer: coarse)').matches;
+    listen(window, 'resize', () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (touch && w === lastW && Math.abs(h - lastH) < 160) return;
+      lastW = w;
+      lastH = h;
+      remeasure();
+    });
     listen(window, 'load', measure);
     if ('ResizeObserver' in window) {
       const ro = new ResizeObserver(remeasure);
@@ -163,7 +185,7 @@ function createScrollEngine({ reducedMotion }) {
     cleanups = [];
   }
 
-  return { reducedMotion, shared, addScene, addFrameHook, addResizeHook, measure, wake, jumpTo, progress, start, stop };
+  return { reducedMotion, shared, addScene, addFrameHook, addMeasureHook, addResizeHook, measure, wake, jumpTo, progress, start, stop };
 }
 
 /** The page has one scroll, so it has one engine. */
