@@ -53,4 +53,13 @@ p { margin: 0; }
 
 /* scenes: a tall section with a pinned, full-screen stage */
 .scene { position: relative; }
-.sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; overflow: clip; }
+/* clip, not hidden: a hidden box can still be scrolled, and opening a link such as /#blend-espresso made the browser
+   scroll the blends stage itself to its anchor, sliding the whole stage half a screen up (the bag out of sight) */
+
+/* chapters far off screen pause their looping animations and are not drawn at all (lib/pauseOffscreen.js).
+   Hidden, their photos, cut-outs and shadows drop out of the phone's graphics memory instead of all ~100 layers
+   of the story staying resident at once (the source of the blank and blurry frames on phones). Hiding changes no
+   layout, so every measurement stays valid. !important: the blends stage sets its own visibility inline. */
+.is-off, .is-off * { animation-play-state: paused !important; }
+main > section.is-off > * { visibility: hidden !important; }

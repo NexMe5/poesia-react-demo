@@ -7,10 +7,11 @@ import { img } from '../../lib/assets';
 import { createOriginScene } from './originScene';
 import './Origin.css';
 
-/** I · Origin: the photo window grows from a card to the whole screen, then the line rises in. */
+/** I · Origin: the photo stands full screen; the label and the line rise in over it. */
 function Origin() {
   const ref = useRef(null);
-  useScene(ref, (el) => ({ render: createOriginScene(el) }));
+  // `enter`: the scene also hears the screen before it pins, while the photo rises over the hero (the dawn fade)
+  useScene(ref, (el) => ({ render: createOriginScene(el), enter: true }));
   // lands with the photo full screen and all three lines in
   useLanding('#origin', (el) => docTop(el) + pinLen(el) * 0.92);
 
@@ -18,7 +19,7 @@ function Origin() {
     <section ref={ref} id="origin" className="scene origin" data-tone="dark" aria-labelledby="origin-h">
       <div className="sticky">
         <div className="origin-media">
-          <img src={img('origin.webp')} alt="Coffee pickers among the rows of a hillside estate at sunrise" width="1600" height="2400" />
+          <img src={img('origin.webp')} alt="Coffee pickers among the rows of a hillside estate at sunrise" width="1600" height="2400" loading="lazy" decoding="async" />
         </div>
         <div className="origin-shade" />
         <div className="origin-copy wrap">
@@ -28,6 +29,8 @@ function Origin() {
           </h2>
         </div>
       </div>
+      {/* above the stage, straddling the chapter's top edge: see .origin-dawn */}
+      <div className="origin-dawn" aria-hidden="true" />
     </section>
   );
 }

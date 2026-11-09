@@ -1,7 +1,6 @@
-import { img } from '../../lib/assets';
 import { introReady } from '../../lib/introReady';
 
-const MAX_MS = 20000;          // a stuck resource never holds the page longer than this (slow networks get real progress meanwhile)
+const MAX_MS = 12000;          // a stuck resource never holds the page longer than this (slow networks get real progress meanwhile)
 const HOLD_AT = 89;            // the signature beat: the count rests at 089 while the cup fills
 /** The first brew always plays to the moment its cup is full (6 s loop × .93 ≈ 5.6 s), so the loader never cuts mid-pour. */
 const FIRST_CUP_FULL = 0.93;
@@ -12,8 +11,13 @@ const STEPS = [
   [0.46, 'Brewing'],
   [0.78, 'Serving'],
 ];
-/** Images that only appear in CSS (masks, counter textures) are fetched up front too. */
-const CSS_IMAGES = ['motif-bird.png', 'counter-top.webp', 'counter-front.webp'];
+/**
+ * Only the first screen holds the loader: the intro (bean, wordmark, dust) and the hero it tears open to,
+ * plus the header. Every later chapter loads behind it and is decoded just before it scrolls in
+ * (lib/warmAhead.js). Waiting for the whole site meant ~3.4 MB on the wire and ~110 MB of decoded
+ * photos before a phone on a slow network saw anything, and the decoded photos were evicted again anyway.
+ */
+const CRITICAL = '#top img, .nav img';
 
 /**
  * Drives the loader: real progress (every image on the page, the fonts, the painted intro)
@@ -62,13 +66,11 @@ export function trackLoading({ root, scene, countEl, barEl, labelEl, onFinish })
     return undefined;
   };
 
-  // wait for every image on the site, so nothing pops in while scrolling; lazy images start loading now
-  document.querySelectorAll('img, video:not([preload="none"])').forEach((el) => {
+  // wait for the first screen only; the rest of the story streams in behind the loader
+  document.querySelectorAll(CRITICAL).forEach((el) => {
     if (root.contains(el)) return;
-    if (el.loading === 'lazy') el.loading = 'eager';
     watch(el);
   });
-  CSS_IMAGES.forEach((name) => { const im = new Image(); im.src = img(name); watch(im); });
   total++;
   introReady.then(() => { done++; fxReady = true; });
   if (document.fonts && document.fonts.ready) {
@@ -76,11 +78,8 @@ export function trackLoading({ root, scene, countEl, barEl, labelEl, onFinish })
     document.fonts.ready.then(() => { done++; }, () => { done++; });
   }
 
-  const onLoad = () => { winLoaded = true; };
-  if (!winLoaded) {
-    window.addEventListener('load', onLoad);
-    cleanups.push(() => window.removeEventListener('load', onLoad));
-  }
+  // window 'load' waits for every image on the page, so it is no longer part of the gate
+  winLoaded = true;
   const safety = setTimeout(() => { pageLoaded = true; }, MAX_MS);
   cleanups.push(() => clearTimeout(safety));
 

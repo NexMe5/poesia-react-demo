@@ -1,10 +1,13 @@
 import { img } from '../lib/assets';
 
-/** "What makes Poesia special": three chapters around one pinned bag. */
+/**
+ * "What makes Poesia special": three chapters around one pinned bag.
+ * The polaroids are ~240 px wide at most, so they use card-sized copies (the full photos decode to 6–15 MB each).
+ */
 export const CRAFT_CHAPTERS = [
-  { word: 'Altitude', wordSize: '15.6vw', pillar: 'Grown at altitude', photo: img('origin.webp'), position: '50% 30%', caption: 'Chikmagalur & Coorg' },
-  { word: 'Roasted', wordSize: '17.6vw', pillar: 'Roasted our way', photo: img('still-life.webp'), position: '22% 70%', caption: 'Roasted in Goa' },
-  { word: 'Soil to cup', wordSize: '11.4vw', pillar: 'Soil to cup', photo: img('cafe-latte.webp'), position: undefined, caption: "In your guest's cup" },
+  { word: 'Altitude', wordSize: '15.6vw', pillar: 'Grown at altitude', photo: img('origin-card.webp'), position: '50% 30%', caption: 'Chikmagalur & Coorg' },
+  { word: 'Roasted', wordSize: '17.6vw', pillar: 'Roasted our way', photo: img('still-life-card.webp'), position: '22% 70%', caption: 'Roasted in Goa' },
+  { word: 'Soil to cup', wordSize: '11.4vw', pillar: 'Soil to cup', photo: img('cafe-latte-720.webp'), position: undefined, caption: "In your guest's cup" },
 ];
 
 /** Three beans orbiting the bag. */

@@ -85,7 +85,8 @@ export function createCoffeeDust({ canvas, beanStage, isActive, reducedMotion })
   }
 
   function size() {
-    dpr = Math.min(2, window.devicePixelRatio || 1);
+    // fine dust needs no more than 1.25× on a phone: each drawn frame is a full-screen texture upload
+    dpr = Math.min(isMobile() ? 1.25 : 2, window.devicePixelRatio || 1);
     if (!canvas.clientWidth || !canvas.clientHeight) return;   // not laid out
     W = canvas.clientWidth;
     H = canvas.clientHeight;
@@ -97,7 +98,7 @@ export function createCoffeeDust({ canvas, beanStage, isActive, reducedMotion })
     ox = W / 2 + bw * 0.16;
     oy = H / 2 - bh * 0.32;
     R = mob ? H * 0.36 : Math.min(W * 0.42, H * 0.62);
-    const N = mob ? 170 : 380;
+    const N = mob ? 110 : 380;   // phones: fewer, the plume still reads as a plume at this size
     parts = Array.from({ length: N }, (_, i) => { const q = { amb: i < N * 0.14 }; spawn(q, true); return q; });
 
     // static haze: warm clouds along the plume and a glow behind the bean, painted once at quarter resolution
@@ -172,14 +173,22 @@ export function createCoffeeDust({ canvas, beanStage, isActive, reducedMotion })
   }
 
   size();
-  // the dust drifts slowly, so 30 frames a second is plenty
+  // the dust drifts slowly, so 30 frames a second is plenty; the loop stops once the dust is out of sight
+  // (it used to keep a frame callback running on every page of the story) and wake() starts it again
+  let running = false;
   const loop = () => {
+    if (!isActive()) { running = false; return; }
     odd = !odd;
-    if (odd && isActive()) draw();
+    if (odd) draw();
     raf = requestAnimationFrame(loop);
   };
+  function wake() {
+    if (running || reducedMotion || !isActive()) return;
+    running = true;
+    raf = requestAnimationFrame(loop);
+  }
   if (reducedMotion) draw();
-  else loop();
+  else wake();
 
-  return { size, dispose() { cancelAnimationFrame(raf); } };
+  return { size, wake, dispose() { cancelAnimationFrame(raf); running = false; } };
 }

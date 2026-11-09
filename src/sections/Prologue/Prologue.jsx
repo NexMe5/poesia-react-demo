@@ -20,7 +20,9 @@ function Prologue() {
         <div className="hero" data-tone-inner="light">
           <div className="hero-shade" />
           <div className="hero-light" />
-          <Leaves />
+          {/* the same plant, placed as on every cream chapter after it (craft, the blends' opening, the menu) */}
+          <Leaves variant="cl-a" eager />
+          <Leaves variant="cl-b" eager />
           <div className="hero-beans" aria-hidden="true">
             {HERO_BEANS.map((b, i) => (
               <div
@@ -52,8 +54,8 @@ function Prologue() {
         </div>
 
         <div className="tear" aria-hidden="true">
-          <div className="tear-half tear-l"><div className="fiber" /><div className="panel"><canvas className="wmark" /></div></div>
-          <div className="tear-half tear-r"><div className="fiber" /><div className="panel"><canvas className="wmark" /></div></div>
+          <div className="tear-half tear-l"><canvas className="tear-shade" /><div className="fiber" /><div className="panel"><canvas className="wmark" /></div></div>
+          <div className="tear-half tear-r"><canvas className="tear-shade" /><div className="fiber" /><div className="panel"><canvas className="wmark" /></div></div>
           <canvas className="dust" />
           <img className="bokeh b1" src={img('bk-2.webp')} alt="" />
           <img className="bokeh b2" src={img('bk-1.webp')} alt="" />
@@ -73,7 +75,7 @@ function Prologue() {
             </SplitBean>
           </div>
         </div>
-        <svg className="crack" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline /></svg>
+        <div className="crack" aria-hidden="true"><div className="crack-in"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline /></svg></div></div>
       </div>
     </section>
   );

@@ -1,9 +1,20 @@
 /* ---------- I · Origin ---------- */
-/* overlaps the hero's exit, so the cream pause between them is short */
-.origin { height: 270vh; background: var(--espresso); color: var(--cream); margin-top: -45vh; z-index: 2; }
-.origin-media { position: absolute; inset: 0; clip-path: inset(22% 32% 22% 32% round 28px); will-change: clip-path; }
-.origin-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; transform: scale(1.35); will-change: transform; }
-.origin-shade { position: absolute; inset: 0; opacity: 0; background: linear-gradient(180deg, rgba(20, 12, 6, .55) 0%, rgba(20, 12, 6, .05) 36%, rgba(20, 12, 6, .86) 100%); }
+/* overlaps the hero's exit: the photo starts rising out of the haze as the range lifts off, with no empty pause */
+.origin { height: 270vh; background: var(--espresso); color: var(--cream); margin-top: -65vh; z-index: 2; }
+/* the photo is still and full screen; only the words animate (originScene.js) */
+.origin-media { position: absolute; inset: 0; overflow: hidden; }
+.origin-media img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 22%; }
+/* The morning haze the photo rises out of. It straddles the chapter's top edge: clear above it (the hero shows
+   through), solid cream right on the edge (so the photo's edge is never seen), clearing again down into the
+   photo. Its opacity follows the rise (originScene.js), so it is gone by the time the photo fills the screen. */
+.origin-dawn {
+  position: absolute; left: 0; right: 0; top: -28vh; height: 66vh; z-index: 1; pointer-events: none; will-change: opacity;
+  /* clear 28vh above the edge, solid on it, clear again 38vh into the photo: the photo shows almost at once */
+  background: linear-gradient(180deg,
+    rgba(243, 233, 220, 0) 0%, rgba(243, 233, 220, .55) 18%, rgba(243, 233, 220, .9) 31%, #f3e9dc 42.4%,
+    rgba(243, 233, 220, .82) 50%, rgba(243, 233, 220, .4) 66%, rgba(243, 233, 220, .1) 85%, rgba(243, 233, 220, 0) 100%);
+}
+.origin-shade { position: absolute; inset: 0; opacity: 0; will-change: opacity; background: linear-gradient(180deg, rgba(20, 12, 6, .55) 0%, rgba(20, 12, 6, .05) 36%, rgba(20, 12, 6, .86) 100%); }
 .origin-copy { position: absolute; left: 0; right: 0; bottom: 11vh; }
 .origin-copy .label { color: var(--copper-l); margin-bottom: 1.2rem; }
 .origin-title { font-size: clamp(2.4rem, 4.8vw, 5rem); line-height: 1.04; }
@@ -15,3 +26,4 @@
 
 .rm .origin { height: auto; margin-top: 0; }
 .rm .origin .sticky { position: relative; }
+.rm .origin-dawn { display: none; }

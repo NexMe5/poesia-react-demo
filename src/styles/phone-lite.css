@@ -1,0 +1,31 @@
+/*
+ * Phone-only lightening (max-width: 720px — the site's phone breakpoint). Desktop is untouched.
+ *
+ * A phone's GPU pays for every blur when it draws a layer: each drop-shadow is a blur pass over the whole cut-out,
+ * and a blur filter over an image is another. On the large bag cut-outs the second, softer shadow costs as much as
+ * the first while adding little at phone size, so each keeps one shadow tuned to read the same. Hairline blurs that
+ * fake depth of field (≤ 0.6 px) disappear at phone pixel density anyway, and so does the copper words' faint glow.
+ * Selectors carry an extra `html` so they win over the chapter stylesheets, which load after this one.
+ */
+@media (max-width: 720px) {
+  /* hero range, craft bag, blends range: one shadow per bag */
+  html .bag img { filter: drop-shadow(0 26px 22px rgba(70, 38, 14, .36)); }
+  html .craft-bag img { filter: drop-shadow(0 32px 26px rgba(70, 38, 14, .38)); }
+  html .bbag img, html .blends .sticky[data-s] .bbag img { filter: drop-shadow(0 32px 26px rgba(70, 38, 14, .38)); }
+  /* the range breathing on the counter kept four large layers moving every frame while the page sat still */
+  html .blends .sticky[data-s="1"] .bbag { animation: none; }
+
+  /* the split bean: its warm glow and its shadow; the 1 px rim light is invisible at this size */
+  html .bean-half img { filter: drop-shadow(0 0 18px rgba(255, 140, 60, .32)) drop-shadow(0 26px 30px rgba(0, 0, 0, .6)); }
+
+  /* hairline depth-of-field blurs and a 4% contrast lift: not visible on a phone, but each a filter pass */
+  html .orbit .ob.back img { filter: drop-shadow(0 10px 10px rgba(60, 30, 10, .22)) brightness(.86); }
+  html .cbean.far { filter: drop-shadow(0 2px 2px rgba(40, 18, 4, .45)) brightness(.9); }
+  html .tools-set .mc img, html .tools-set .tm-marquee .tm-img img { filter: drop-shadow(0 18px 18px rgba(0, 0, 0, .55)); }
+
+  /* the giant copper words' faint glow (.2 alpha, 26 px blur) over a word as wide as the screen */
+  html .giant .gw > span { filter: none; }
+
+  /* ten beans thrown from the crack instead of sixteen: the burst reads the same at phone size */
+  html .chip:nth-child(n + 11) { display: none; }
+}

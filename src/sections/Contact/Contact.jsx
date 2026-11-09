@@ -9,7 +9,6 @@ import ContactWays from './ContactWays';
 import { useLanding } from '../../navigation/landings';
 import { docTop } from '../../lib/dom';
 import { isMobile } from '../../lib/env';
-import { CONTACT } from '../../data/site';
 import './Contact.css';
 
 /** Epilogue and "Get in touch": the bean closes, then the last cup and every way to reach Poesia. */
@@ -38,17 +37,6 @@ function Contact() {
             <Reveal as="p" className="lc-lede">Poesia is where the finest Indian coffee, expertly roasted in Goa, meets refined hospitality.</Reveal>
           </div>
           <ContactWays />
-          <Reveal className="lc-meta">
-            <div>
-              <p className="label">Roastery &amp; office</p>
-              <p>{CONTACT.address}</p>
-              <a className="tlink" href={CONTACT.directions} target="_blank" rel="noopener">Get directions ↗</a>
-            </div>
-            <div>
-              <p className="label">Instagram &amp; Facebook</p>
-              <p><a href={CONTACT.instagram} target="_blank" rel="noopener">{CONTACT.instagramHandle}</a></p>
-            </div>
-          </Reveal>
         </div>
       </div>
 

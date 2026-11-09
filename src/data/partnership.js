@@ -6,7 +6,7 @@ export const PROMISE_TEXT =
 export const WHO_WE_SERVE = ['Cafés', 'Luxury hotels', 'Restaurants', 'Workplaces', 'Banquets & events'];
 
 export const MOMENTS = [
-  { src: img('cafe-espresso.webp'), alt: 'Espresso in a Poesia cup on a wooden table', width: 1000, height: 1500 },
-  { src: img('cafe-latte.webp'), alt: 'Latte art in a Poesia cup on a café ledge', width: 1000, height: 1500 },
-  { src: img('cafe-monstera.webp'), alt: 'Espresso in a Poesia cup beside a monstera plant', width: 913, height: 1600 },
+  { src: img('cafe-espresso-720.webp'), alt: 'Espresso in a Poesia cup on a wooden table', width: 720, height: 1080 },
+  { src: img('cafe-latte-720.webp'), alt: 'Latte art in a Poesia cup on a café ledge', width: 720, height: 1080 },
+  { src: img('cafe-monstera-720.webp'), alt: 'Espresso in a Poesia cup beside a monstera plant', width: 720, height: 1262 },
 ];

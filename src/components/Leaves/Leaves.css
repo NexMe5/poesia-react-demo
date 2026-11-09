@@ -1,18 +1,18 @@
-/* Leaf shadows: one plant, placed per chapter */
-.leaves { position: absolute; top: -8%; left: -7%; width: min(52vw, 760px); height: auto; opacity: .11; filter: blur(5px); pointer-events: none; }
+/* Leaf shadows: one plant, placed per chapter (pre-blurred pictures, see Leaves.jsx: no filter is run on the phone) */
+.leaves { position: absolute; top: -8%; left: -7%; width: min(52vw, 760px); max-width: none; height: auto; opacity: .11; pointer-events: none; user-select: none; }
 
 /* cream stage (craft, the blends' opening ground, the menu) */
 .leaves.cl-a { left: auto; right: -6%; top: -10%; width: min(56vw, 820px); transform: scaleX(-1) rotate(-4deg); opacity: .12; }
-.leaves.cl-b { top: auto; left: -9%; bottom: -14%; width: min(36vw, 520px); transform: rotate(180deg) scaleX(-1); opacity: .09; filter: blur(7px); }
+.leaves.cl-b { top: auto; left: -9%; bottom: -14%; width: min(36vw, 520px); transform: rotate(180deg) scaleX(-1); opacity: .09; }
 
 /* partnership */
 .leaves.pl-a { left: auto; right: -6%; top: -3%; width: min(56vw, 820px); transform: scaleX(-1) rotate(-4deg); opacity: .12; }
-.leaves.pl-b { top: 44%; left: -12%; width: min(40vw, 560px); transform: rotate(14deg); opacity: .08; filter: blur(7px); }
-.leaves.pl-c { top: auto; right: -8%; left: auto; bottom: -6%; width: min(44vw, 640px); transform: rotate(180deg); opacity: .1; filter: blur(6px); }
+.leaves.pl-b { top: 44%; left: -12%; width: min(40vw, 560px); transform: rotate(14deg); opacity: .08; }
+.leaves.pl-c { top: auto; right: -8%; left: auto; bottom: -6%; width: min(44vw, 640px); transform: rotate(180deg); opacity: .1; }
 
 /* night room */
-.leaves.nl-a { left: auto; right: -7%; top: -2%; width: min(56vw, 820px); transform: scaleX(-1) rotate(-4deg); opacity: .8; filter: blur(3.5px); }
-.leaves.nl-b { top: auto; left: -10%; bottom: -16%; width: min(36vw, 520px); transform: rotate(180deg) scaleX(-1); opacity: .6; filter: blur(5px); }
+.leaves.nl-a { left: auto; right: -7%; top: -2%; width: min(56vw, 820px); transform: scaleX(-1) rotate(-4deg); opacity: .8; }
+.leaves.nl-b { top: auto; left: -10%; bottom: -16%; width: min(36vw, 520px); transform: rotate(180deg) scaleX(-1); opacity: .6; }
 .leaves.ne-a { top: 46%; right: -8%; }
 .leaves.ne-b { bottom: -4%; }
 

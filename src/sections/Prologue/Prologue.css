@@ -45,7 +45,10 @@
 /* the dark stage that tears open */
 .tear { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 .tear-half { position: absolute; inset: 0; will-change: transform; }
-.tear.open .tear-half { filter: drop-shadow(0 0 26px rgba(0, 0, 0, .5)); }
+/* the shadow each half throws on the hero is painted once into a canvas behind it (tear.js), so it slides with
+   the half for free; a drop-shadow filter on the moving half made the phone re-blur two full screens every frame */
+.tear-shade { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
+.tear.open .tear-shade { opacity: 1; }
 .panel, .fiber { position: absolute; inset: 0; }
 .panel { background: radial-gradient(55% 65% at 50% 50%, #5d341b 0%, #2d190c 42%, #120904 100%); }
 .panel::after {
@@ -63,9 +66,12 @@
 .bokeh.b2 { right: -4vw; top: 60vh; width: min(30vh, 24vw); transform: rotate(32deg); opacity: .6; }
 .bokeh.b3 { right: 15vw; top: 11vh; width: min(9vh, 8vw); transform: rotate(-38deg); opacity: .75; }
 
-.crack {
-  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; z-index: 7; pointer-events: none;
-  clip-path: inset(0 0 100% 0);
+/* the crack is drawn down the bean by sliding a window over it (two counter-moving layers, compositor only);
+   its glow is painted once inside the inner layer instead of being re-clipped and re-blurred every frame */
+.crack { position: absolute; inset: 0; overflow: hidden; z-index: 7; pointer-events: none; transform: translate3d(0, -100%, 0); will-change: transform, opacity; }
+.crack-in { position: absolute; inset: 0; transform: translate3d(0, 100%, 0); will-change: transform; }
+.crack svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
   filter: drop-shadow(0 0 4px rgba(255, 190, 120, .95)) drop-shadow(0 0 14px rgba(255, 140, 60, .6));
 }
 .crack polyline { fill: none; stroke: #fff1dc; stroke-width: 1.3; vector-effect: non-scaling-stroke; stroke-linejoin: round; }

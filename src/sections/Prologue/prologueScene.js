@@ -19,6 +19,7 @@ export function createPrologueScene(root, onStory) {
     hint: qa(root, '.intro-bottom,.scroll-hint,.dust,.bokeh'),
     glow: q(root, '.bean-stage .bean-glow'),
     crack: q(root, '.crack'),
+    crackIn: q(root, '.crack-in'),
     tl: q(root, '.tear-l'),
     tr: q(root, '.tear-r'),
     tear: q(root, '.tear'),
@@ -37,17 +38,20 @@ export function createPrologueScene(root, onStory) {
     const p = clamp(p0 / PROLOGUE_STORY);
     onStory(p);
     // the header turns ink once the cream range is under it
-    root.dataset.tone = p > 0.42 ? 'light' : 'dark';
+    const tone = p > 0.42 ? 'light' : 'dark';
+    if (root.dataset.tone !== tone) root.dataset.tone = tone;
 
     const ex = (i) => ease.inOut(seg(p0, 0.84 + i * 0.03, 0.96 + i * 0.012));
     const a = seg(p, 0, 0.13);
     el.hint.forEach((h) => {
       h.style.opacity = 1 - seg(p, 0, 0.08);
-      h.style.transform = `translateY(${-seg(p, 0, 0.08) * 24}px)`;
+      h.style.transform = `translate3d(0,${-seg(p, 0, 0.08) * 24}px,0)`;
     });
 
     // the crack glows down the bean, then is gone the moment the halves part
-    el.crack.style.clipPath = `inset(0 0 ${(1 - ease.inOut(a)) * 100}% 0)`;
+    const shown = (1 - ease.inOut(a)) * 100;
+    el.crack.style.transform = `translate3d(0,${-shown}%,0)`;
+    el.crackIn.style.transform = `translate3d(0,${shown}%,0)`;
     el.crack.style.opacity = 1 - seg(p, 0.125, 0.145);
 
     const s = ease.inOut(seg(p, 0.13, 0.52));

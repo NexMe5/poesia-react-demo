@@ -18,7 +18,7 @@ export default function Moments() {
   return (
     <div ref={ref} className="moments">
       {MOMENTS.map((m) => (
-        <figure key={m.src}><img src={m.src} alt={m.alt} width={m.width} height={m.height} /></figure>
+        <figure key={m.src}><img src={m.src} alt={m.alt} width={m.width} height={m.height} loading="lazy" decoding="async" /></figure>
       ))}
     </div>
   );

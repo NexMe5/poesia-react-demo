@@ -4,7 +4,7 @@ export default function JourneyCard({ step }) {
   return (
     <article className={studio ? 'jcard studio' : 'jcard'}>
       <figure>
-        <img src={src} alt={alt} width={width} height={height} style={position ? { objectPosition: position } : undefined} />
+        <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" style={position ? { objectPosition: position } : undefined} />
       </figure>
       <h3>{title}</h3>
       <p className="label">{caption}</p>

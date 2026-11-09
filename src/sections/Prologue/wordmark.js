@@ -49,11 +49,28 @@ function boxV(s, d, w, h, r) {
     }
   }
 }
+/**
+ * The wordmark is lit pixel by pixel on the main thread. Done in one go it held the phone for ~200 ms while the
+ * loader was on screen (its machine froze mid-brew), so the work is cut into slices that hand the thread back
+ * between them. `slice()` resolves at once while the slice still has time, and yields once ~8 ms have gone.
+ */
+const yieldToBrowser = () => (globalThis.scheduler && typeof globalThis.scheduler.yield === 'function'
+  ? globalThis.scheduler.yield()
+  : new Promise((resolve) => setTimeout(resolve, 0)));
+function slicer() {
+  let start = performance.now();
+  return async () => {
+    if (performance.now() - start < 8) return;
+    await yieldToBrowser();
+    start = performance.now();
+  };
+}
+
 /** Three box passes ≈ a gaussian blur. */
-function blur(a, w, h, r) {
+async function blur(a, w, h, r, slice) {
   const t = new Float32Array(a.length);
   const o = Float32Array.from(a);
-  for (let i = 0; i < 3; i++) { boxH(o, t, w, h, r); boxV(t, o, w, h, r); }
+  for (let i = 0; i < 3; i++) { boxH(o, t, w, h, r); await slice(); boxV(t, o, w, h, r); await slice(); }
   return o;
 }
 
@@ -101,10 +118,11 @@ export function createWordmark({ canvases, stage, beanStage, tagline, reducedMot
   let disposed = false;
   let lastKey = '';
   let shift = 0;
+  let job = 0;   // a newer paint (or dispose) cancels one still in progress
   // fine grain comes from a 256 × 256 noise tile instead of a random number per pixel
   const NOISE = Float32Array.from({ length: 65536 }, () => Math.random() - 0.5);
 
-  function paint() {
+  async function paint() {
     if (!ready || disposed || reducedMotion || !canvases.length) return;
     const W = stage.clientWidth;
     const H = stage.clientHeight;
@@ -116,6 +134,9 @@ export function createWordmark({ canvases, stage, beanStage, tagline, reducedMot
     const key = [W, H, bw, mob, window.devicePixelRatio].join();
     if (key === lastKey) return;
     lastKey = key;
+    const my = ++job;
+    const slice = slicer();
+    const live = () => my === job && !disposed;
 
     const mc = document.createElement('canvas');
     const mx = mc.getContext('2d');
@@ -149,12 +170,15 @@ export function createWordmark({ canvases, stage, beanStage, tagline, reducedMot
     // round every corner: blur the shape, then cut it again at half height
     const r1 = Math.max(1, Math.round(cap * S * 0.006));
     const k1 = (2 * r1 + 1) * 0.7;
-    const B = blur(A, w, h, r1);
+    await slice(); if (!live()) return;
+    const B = await blur(A, w, h, r1, slice);
+    if (!live()) return;
     const M = new Float32Array(N);
     for (let i = 0; i < N; i++) M[i] = clamp((B[i] - 0.5) * k1 + 0.5, 0, 1);
     // bevel: a soft height field that falls off towards the edges
     const r2 = Math.max(1, Math.round(cap * S * 0.017));
-    const Hf = blur(M, w, h, r2);
+    const Hf = await blur(M, w, h, r2, slice);
+    if (!live()) return;
     for (let i = 0; i < N; i++) { const v = clamp((Hf[i] - 0.5) * 2, 0, 1); Hf[i] = 1 - (1 - v) * (1 - v); }
     // grain: fine noise plus a slow mottle, like cast bronze
     const cell = Math.max(6, Math.round(cap * S * 0.16));
@@ -164,6 +188,7 @@ export function createWordmark({ canvases, stage, beanStage, tagline, reducedMot
     const depth = r2 * 1.35;
 
     for (let y = 0; y < h; y++) {
+      if ((y & 7) === 0) { await slice(); if (!live()) return; }
       const yc = by + y / S;
       const li = L.lines.length > 1 && yc > H / 2 ? 1 : 0;
       const base = tone((yc - L.lines[li]) / cap);
@@ -223,14 +248,13 @@ export function createWordmark({ canvases, stage, beanStage, tagline, reducedMot
   const go = () => {
     if (ready || disposed) return;
     ready = true;
-    paint();
-    markIntroReady();
+    paint().then(markIntroReady, markIntroReady);
   };
   if (document.fonts && document.fonts.load) document.fonts.load(`700 100px "Libre Baskerville"`).then(go, go);
   const fallback = setTimeout(go, 1600);
 
   return {
     paint,
-    dispose() { disposed = true; clearTimeout(fallback); },
+    dispose() { disposed = true; job++; clearTimeout(fallback); },
   };
 }

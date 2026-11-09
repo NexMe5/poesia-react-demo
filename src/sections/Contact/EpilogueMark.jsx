@@ -25,8 +25,8 @@ export default function EpilogueMark({ sectionRef }) {
 
   return (
     <div className="epi-stage wrap">
-      <div ref={beanRef} className="epi-bean" aria-hidden="true"><SplitBean /></div>
-      <img className="epi-wm" src={img('wordmark-light.png')} alt="Poesia" width="900" height="309" />
+      <div ref={beanRef} className="epi-bean" aria-hidden="true"><SplitBean lazy /></div>
+      <img className="epi-wm" src={img('wordmark-light.png')} alt="Poesia" width="900" height="309" loading="lazy" decoding="async" />
       <p className="script">Where every cup tells a story</p>
     </div>
   );

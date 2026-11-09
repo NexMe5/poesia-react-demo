@@ -4,7 +4,7 @@
 /* window light and shade, as on the hero (painted identically on the blends' opening ground) */
 .craft .sticky::before { content: ""; position: absolute; inset: -15%; background: var(--window-light); opacity: .9; pointer-events: none; }
 .craft .sticky::after { content: ""; position: absolute; inset: -15%; background: var(--window-shade); pointer-events: none; }
-.craft-head { position: absolute; top: var(--scene-top); left: 0; right: 0; }
+.craft-head { position: absolute; top: var(--scene-top); left: 0; right: 0; will-change: opacity; }   /* fades on every frame of the exit: its own layer */
 .craft-head .label { color: var(--clay); margin-top: 0; }
 
 .giant { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
@@ -28,7 +28,7 @@
 }
 .craft-floor {
   position: absolute; left: 50%; top: calc(50% + min(31vh, 50vw)); width: min(36vh, 52vw); height: 6vh; z-index: 2; pointer-events: none;
-  transform: translate(-50%, -50%); background: radial-gradient(closest-side, rgba(80, 45, 18, .32), transparent);
+  transform: translate(-50%, -50%); background: radial-gradient(closest-side, rgba(80, 45, 18, .32), transparent); will-change: opacity;
 }
 .pillar { position: absolute; left: 0; bottom: 9vh; width: min(36vw, 480px); z-index: 5; opacity: 0; will-change: transform, opacity; }
 .pillar h3 { font: 400 clamp(2.6rem, 4.2vw, 4.4rem)/1.1 var(--f-script); color: var(--clay); margin: 0; padding: .1em 0; }
@@ -49,7 +49,7 @@
   .orbit .ob { top: 58%; width: calc(var(--w) * .72); }
   .craft-bag { top: 58%; height: 36vh; }
   .craft-floor { top: calc(58% + 18vh); width: 28vh; }
-  .pillar { left: 0; right: 0; width: auto; bottom: 5vh; }
+  .pillar { left: 0; right: 0; width: auto; bottom: calc(5vh + 56px); }   /* clear of the ← → buttons (StoryNav) in the corner below */
   .pillar h3 { font-size: 2.4rem; padding-right: 34vw; }
   .pcard { width: 28vw; bottom: 6vh; padding: 5px 5px 24px; }
   .pcard figcaption { font-size: .8rem; left: 6px; right: 6px; bottom: 5px; }

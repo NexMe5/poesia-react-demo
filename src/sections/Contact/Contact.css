@@ -24,7 +24,7 @@
 .lc-photo .plx { position: absolute; left: 0; right: 0; top: -6%; height: 112%; will-change: transform; }
 .lc-photo .plx img { width: 100%; height: 100%; object-fit: cover; }
 .lc-photo .plx::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 12, 6, .35), rgba(20, 12, 6, 0) 30%, rgba(20, 12, 6, 0) 70%, rgba(20, 12, 6, .45)); }
-.steam { position: absolute; left: 43%; bottom: 33.4%; width: 26%; height: 33%; transform: translateX(-50%); overflow: visible; pointer-events: none; }
+.steam { position: absolute; left: 43%; bottom: 33.4%; width: 26%; height: 33%; transform: translateX(-50%); overflow: visible; pointer-events: none; will-change: transform; }   /* own layer: the animated, blurred steam re-draws only itself, not the photo under it */
 .steam path { fill: none; stroke: #fff6ea; stroke-width: 8; stroke-linecap: round; opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; animation: steam 6.5s ease-in-out infinite; }
 .steam path:nth-child(2) { animation-delay: -2.2s; animation-duration: 7.4s; }
 .steam path:nth-child(3) { animation-delay: -4.3s; animation-duration: 5.8s; }
@@ -51,6 +51,12 @@
 }
 .way-k { font: var(--label); letter-spacing: var(--track); text-transform: uppercase; color: var(--copper-l); transition: color .45s var(--ease); }
 .way-v { font: 400 clamp(1.05rem, min(1.4vw, 2.6vh), 1.45rem)/1.2 var(--f-display); letter-spacing: -.01em; overflow-wrap: anywhere; transition: color .45s var(--ease); }
+/* the quieter second line under a value: the full address under the town, the networks under the handle */
+.way-n {
+  display: block; margin-top: .4rem; max-width: 46ch; white-space: normal; text-wrap: balance;
+  font: 400 .84rem/1.5 var(--f-body); letter-spacing: 0; color: var(--cream-muted); transition: color .45s var(--ease);
+}
+.ways li:hover .way-n, .ways li:focus-within .way-n { color: var(--cream); }
 .has-copy .way-v { margin-right: 4.6rem; }
 .way-a {
   width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(243, 231, 214, .28); display: grid; place-items: center;
@@ -66,21 +72,18 @@
 .copy { flex: 0 0 auto; border-color: var(--cream-line); color: var(--cream-muted); padding: .6em .95em; }
 .ways .copy { position: absolute; top: 50%; right: calc(.8rem + 40px + 1rem); transform: translateY(-50%); z-index: 1; }
 .ways li:hover .copy:not(:hover), .ways li:focus-within .copy:not(:hover) { color: var(--cream); border-color: rgba(243, 231, 214, .35); }
-@media (min-width: 1200px) { .way-v { white-space: nowrap; } }
-@media (max-width: 1199px) { .ways .copy { display: none; } .has-copy .way-v { margin-right: 0; } }
+@media (min-width: 1360px) { .way-v { white-space: nowrap; } }
+/* below this the email no longer fits beside its copy button: the row itself still opens the mail app */
+@media (max-width: 1359px) { .ways .copy { display: none; } .has-copy .way-v { margin-right: 0; } }
+/* short laptop screens: five rows and the title share the photo's height, so the rows sit a little tighter */
+@media (max-height: 780px) and (min-width: 901px) { .way { padding-block: clamp(.55rem, 1.5vh, .8rem); } }
 
-.lc-meta { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--s5) var(--s7); color: var(--cream-muted); font-size: .92rem; line-height: 1.55; }
-.lc-meta .label { color: var(--cream-muted); opacity: .8; margin: 0 0 var(--s2); }
-.lc-meta p { margin: 0; max-width: 34ch; }
-.lc-meta p a { color: var(--cream); text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.lc-meta .tlink { display: inline-block; margin-top: var(--s3); padding: .35em 0; color: var(--copper-l); }
 
 @media (max-width: 900px) {
   .lc { grid-template-columns: minmax(0, 1fr); gap: 9vh; }
   .lc-photo { height: auto; width: min(64vw, 360px); }
   .lc-body { margin-block: 0; gap: 2.2rem; justify-content: flex-start; }
   .lc-body .t-title { font-size: clamp(2.3rem, 7vw, 3.4rem); }
-  .lc-meta { margin-top: .4rem; }
 }
 @media (max-width: 720px) {
   .lc { padding-block: 9vh 10vh; gap: 7vh; }
@@ -94,7 +97,7 @@
   .has-copy .way-v { margin-right: 0; }
   .ways .copy { display: none; }
   .ways li:hover .way, .ways li:focus-within .way { padding-left: .9rem; }
-  .lc-meta { grid-template-columns: 1fr; gap: 1.8rem; margin-top: 0; }
+  .way-n { font-size: .82rem; }
 }
 
 .rm .steam path { animation: none; opacity: .45; }

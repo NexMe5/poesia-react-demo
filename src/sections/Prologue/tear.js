@@ -15,7 +15,33 @@ const JIT_TOP = Array.from({ length: SEGS }, () => rnd() - 0.5);
 const JIT_BOTTOM = Array.from({ length: SEGS }, () => rnd() - 0.5);
 const FIBRE_JIT = Array.from({ length: 90 }, () => rnd());
 
-export function createTear({ stage, beanStage, panelL, panelR, fiberL, fiberR, crackLine }) {
+/** The shadow a torn half throws: its panel's outline, filled under the panel with a soft black shadow around it. */
+function paintShade(canvas, W, H, list, side) {
+  if (!canvas) return;
+  // A 52 px soft shadow has no detail to lose at half resolution, and canvas blur cost grows with the pixel count:
+  // at 1.5× the two full-screen shades took the phone ~9× longer to paint, while the loader was on screen.
+  const k = 0.5;
+  canvas.width = Math.round(W * k);
+  canvas.height = Math.round(H * k);
+  const c = canvas.getContext('2d');
+  c.setTransform(k, 0, 0, k, 0, 0);
+  c.shadowColor = 'rgba(0,0,0,.56)';
+  // canvas shadowBlur is twice the standard deviation, in device pixels (the transform does not scale it);
+  // drop-shadow(0 0 26px) used 26px as the standard deviation
+  c.shadowBlur = 52 * k;
+  c.fillStyle = '#000';
+  const X = (px) => (px / 100) * W;
+  const Y = (py) => (py / 100) * H;
+  const edgeX = side === 'l' ? -0.02 * W : 1.02 * W;
+  c.beginPath();
+  c.moveTo(edgeX, -0.02 * H);
+  list.forEach(([px, py]) => c.lineTo(X(px), Y(py)));
+  c.lineTo(edgeX, 1.02 * H);
+  c.closePath();
+  c.fill();
+}
+
+export function createTear({ stage, beanStage, panelL, panelR, fiberL, fiberR, shadeL, shadeR, crackLine }) {
   /** `shift` is the wordmark's centring shift: the bean (and so the crease) moves with it. */
   function build(shift = 0) {
     const W = stage.clientWidth;
@@ -59,6 +85,9 @@ export function createTear({ stage, beanStage, panelL, panelR, fiberL, fiberR, c
     fiberL.style.clipPath = poly('l', offset(1));
     fiberR.style.clipPath = poly('r', offset(-1));
     crackLine.setAttribute('points', pts.map((p) => p.join(',')).join(' '));
+    const ptsR = pts.map(([px, py]) => [+(px - 0.3).toFixed(2), py]);
+    paintShade(shadeL, W, H, pts, 'l');
+    paintShade(shadeR, W, H, ptsR, 'r');
   }
   return { build };
 }

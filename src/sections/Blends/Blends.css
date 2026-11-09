@@ -10,19 +10,36 @@
   mask: url("../../assets/images/motif-bird.png") top right/contain no-repeat;
 }
 .bird.on-dark { color: rgba(243, 231, 214, .07); }
+/* CSS images load as soon as their element is laid out, so on the first screen they used to compete with the intro.
+   They wait until the chapter is two screens away (lib/warmAhead.js adds .near). */
+.blends:not(.near) .bird { display: none; }
+.blends:not(.near) .ctr-top, .blends:not(.near) .ctr-front { background-image: none; }
 
 /* the opening ground repeats the craft stage exactly, so the hand-off is invisible */
 .blend-dark { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; background: var(--sunlit); opacity: 1; transition: opacity 0s; }
 .blend-dark::before { content: ""; position: absolute; inset: -15%; background: var(--window-light); opacity: .9; pointer-events: none; }
 .blend-dark::after { content: ""; position: absolute; inset: -15%; background: var(--window-shade); pointer-events: none; }
 .blends .sticky:not([data-s="0"]):not([data-s="1"]) .blend-dark { opacity: 0; transition-delay: 1.3s; }
-.blend-bg { position: absolute; inset: 0; z-index: 0; background-color: #34250c; transition: background-color 1.4s var(--smart); }
-/* the blend's colour pours out from the bag and fills the room: every frame is either cream or colour, never a mix of both */
+/* never seen (the cream stage or the wash always covers it), so it changes colour at once: animating it repainted the whole stage */
+.blend-bg { position: absolute; inset: 0; z-index: 0; background-color: #34250c; }
+/* the blend's colour pours out from the bag and fills the room: every frame is either cream or colour, never a mix of both.
+   The circle is a round frame centred on the bag that grows by transform (it was a clip-path transition, which the
+   phone re-painted full screen on every frame of the pour). Its fill is a plain rectangle on its own layer, so the
+   colour change between blends is a solid-colour layer, never re-drawn either. Final radius = 150% of the
+   stage's reference radius (√(w²+h²)/√2), as the clip-path had. */
 .blend-wash {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none; background-color: #34250c;
-  clip-path: circle(0% at var(--at, 74%) 52%); transition: clip-path 1.25s var(--smart), background-color 1.4s var(--smart);
+  --wd: calc(2 * (100vw + 100vh));
+  position: absolute; left: var(--at, 74%); top: 52%; z-index: 2; pointer-events: none;
+  width: var(--wd); height: var(--wd); margin: calc(var(--wd) / -2) 0 0 calc(var(--wd) / -2);
+  border-radius: 50%; overflow: hidden; transform: scale(0); will-change: transform;
+  transition: transform 1.25s var(--smart);
 }
-.blends .sticky:not([data-s="0"]):not([data-s="1"]) .blend-wash { clip-path: circle(150% at var(--at, 74%) 52%); }
+@supports (width: hypot(1px, 1px)) { .blend-wash { --wd: calc(2.1213 * hypot(100vw, 100vh)); } }
+.blend-wash > i {
+  position: absolute; inset: 0; background-color: var(--wash, #34250c); will-change: opacity;
+  transition: background-color 1.4s var(--smart);
+}
+.blends .sticky:not([data-s="0"]):not([data-s="1"]) .blend-wash { transform: scale(1); }
 
 .blends-head { position: absolute; top: var(--scene-top); left: 0; right: 0; z-index: 4; opacity: 0; transition: opacity .8s var(--smart); }
 .blends-head .label { transition: color .8s var(--smart); }
@@ -95,6 +112,11 @@
   filter: drop-shadow(0 44px 44px rgba(0, 0, 0, .5)) drop-shadow(0 8px 10px rgba(0, 0, 0, .3));
   transition: filter 1.2s var(--smart); transition-delay: inherit;
 }
+/* Phones and tablets: one shadow in every shot and no shadow animation. Animating a 44px drop-shadow re-blurred
+   all four bag images on every frame of each 1.2 s shot change, the heaviest work on the page for a phone. */
+@media (pointer: coarse) {
+  .bbag img, .blends .sticky[data-s] .bbag img { transition: none; filter: drop-shadow(0 46px 38px rgba(70, 38, 14, .34)) drop-shadow(0 8px 12px rgba(70, 38, 14, .24)); }
+}
 .blends .sticky[data-s="1"] .bbag { cursor: pointer; animation: breathe 5.6s ease-in-out var(--bd, 0s) infinite; }
 .blends .sticky[data-s="1"] .bbag img { filter: drop-shadow(0 16px 16px rgba(50, 25, 8, .28)) drop-shadow(0 3px 5px rgba(50, 25, 8, .22)); }
 /* the hand-off and range shots keep the craft stage's warm shadow (this rule wins over the lighter one above) */
@@ -158,7 +180,7 @@
   .blend-bags { right: 0; left: 0; top: 10vh; width: 100%; height: 50vh; transform: none; }
   .bbag { height: 46vh; }
   .bag-glow { width: 54vh; height: 54vh; }
-  .bname { font-size: 36vw; top: 62%; }
+  .bname { font-size: 30vw; top: 35%; }   /* phones: the calligraphy name sits centred behind the bag (the bag's middle is ~35% down) */
   .range-title { top: calc(var(--scene-top) + 4vh); bottom: auto; font-size: 2.3rem; padding-inline: var(--gut); }
   .blends .sticky { --ctr-top: 63vh; --ctr-h: 9vh; }
   .cbean { left: var(--xm, var(--x)); top: var(--ym, var(--y)); width: calc(var(--w) * .7); }

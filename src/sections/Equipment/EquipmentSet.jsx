@@ -11,7 +11,7 @@ export default function EquipmentSet({ chapter }) {
           className={cx('mc', item.tall && 'tall', item.hideOnPhone && 'hide-m')}
           style={item.h ? { '--h': item.h } : undefined}
         >
-          <img src={item.src} alt={item.alt} width={item.width} height={item.height} />
+          <img src={item.src} alt={item.alt} width={item.width} height={item.height} loading="lazy" decoding="async" />
           <figcaption>
             <b>{item.name}</b>
             {item.spec && <span>{item.spec}</span>}

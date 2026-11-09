@@ -11,5 +11,6 @@
     radial-gradient(52% 50% at 80% 22%, rgba(226, 150, 78, .3), rgba(222, 146, 74, .1) 48%, transparent 74%),
     radial-gradient(40% 36% at 6% 96%, rgba(222, 146, 74, .09), transparent 70%);
 }
-.night .leaves { z-index: 0; mix-blend-mode: multiply; }
-.night .leaves g { fill: #0b0603; }
+/* The plant is near-black (leaves-night.webp), so plain transparency looks the same as the multiply blend it used
+   to have (within 1% brightness) without making the phone blend the whole night stage into an extra off-screen pass. */
+.night .leaves { z-index: 0; }

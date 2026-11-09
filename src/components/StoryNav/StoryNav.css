@@ -1,0 +1,31 @@
+/* ← → story navigation: bottom left, opposite the WhatsApp button, on every chapter once the intro is open */
+.story-nav {
+  position: fixed; left: max(18px, env(safe-area-inset-left, 0px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); z-index: 59;
+  display: flex; gap: 8px;
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.story-nav.on { opacity: 1; transform: none; pointer-events: auto; }
+.story-nav button {
+  width: 48px; height: 48px; padding: 0; border-radius: 50%; cursor: pointer; display: grid; place-items: center;
+  border: 1px solid rgba(243, 231, 214, .22); background: rgba(20, 12, 6, .62); color: var(--cream);
+  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .6);
+  transition: background-color .4s, color .4s, border-color .4s, opacity .3s, transform .3s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.story-nav svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.story-nav button:active:not(:disabled) { transform: scale(.92); }
+.story-nav button:disabled { opacity: .35; cursor: default; }
+/* on the cream chapters: ink on paper */
+html[data-tone="light"] .story-nav button { background: rgba(245, 237, 225, .85); color: var(--ink); border-color: rgba(38, 23, 14, .16); box-shadow: 0 10px 24px -14px rgba(70, 38, 14, .45); }
+@media (hover: hover) {
+  .story-nav button:hover:not(:disabled) { background: rgba(20, 12, 6, .85); border-color: rgba(243, 231, 214, .4); }
+  html[data-tone="light"] .story-nav button:hover:not(:disabled) { background: rgba(245, 237, 225, .98); }
+}
+html.menu-open .story-nav { opacity: 0; pointer-events: none; }
+/* phones: a smaller pair, closer to the corner, so it never crowds the copy above it */
+@media (max-width: 720px) {
+  .story-nav { left: max(14px, env(safe-area-inset-left, 0px)); bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); gap: 6px; }
+  .story-nav button { width: 38px; height: 38px; }
+  .story-nav svg { width: 16px; height: 16px; }
+}

@@ -85,7 +85,8 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
     section.dataset.tone = s <= 1 ? 'light' : 'dark';   // the header reads the cream stage as light
     stage.classList.toggle('instant', !!instant);
     if (k >= 0) {
-      el.room.style.backgroundColor = el.wash.style.backgroundColor = BLENDS[k].room;
+      el.room.style.backgroundColor = BLENDS[k].room;
+      el.wash.style.setProperty('--wash', BLENDS[k].room);
       el.glow.style.setProperty('--blend-glow', BLENDS[k].glow);
     }
     // blends two and four mirror the composition on wide screens: the bag crosses left, the words right

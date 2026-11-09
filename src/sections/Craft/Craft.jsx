@@ -35,19 +35,19 @@ function Craft() {
         </div>
         <div className="orbit" aria-hidden="true">
           {ORBIT_BEANS.map((b, i) => (
-            <span key={i} className="ob" style={{ '--w': `${b.width}px` }}><img src={b.src} alt="" /></span>
+            <span key={i} className="ob" style={{ '--w': `${b.width}px` }}><img src={b.src} alt="" loading="lazy" decoding="async" /></span>
           ))}
         </div>
         <div className="craft-floor" aria-hidden="true" />
         <div className="craft-bag">
-          <img src={img('bag-espresso.webp')} alt="A 1 kg bag of Poesia Espresso Italiano" width="680" height="1147" />
+          <img src={img('bag-espresso.webp')} alt="A 1 kg bag of Poesia Espresso Italiano" width="680" height="1147" loading="lazy" decoding="async" />
         </div>
         {CRAFT_CHAPTERS.map((c) => (
           <article key={c.pillar} className="pillar wrap"><h3>{c.pillar}</h3></article>
         ))}
         {CRAFT_CHAPTERS.map((c) => (
           <figure key={c.caption} className="pcard" aria-hidden="true">
-            <img src={c.photo} alt="" loading="lazy" style={c.position ? { objectPosition: c.position } : undefined} />
+            <img src={c.photo} alt="" loading="lazy" decoding="async" style={c.position ? { objectPosition: c.position } : undefined} />
             <figcaption>{c.caption}</figcaption>
           </figure>
         ))}

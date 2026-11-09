@@ -26,6 +26,7 @@ function createScrollEngine({ reducedMotion }) {
   let lastY = -1;
   let started = false;
   let cleanups = [];
+  let gliding = false;   // the ← → buttons are moving the page (components/StoryNav)
 
   /** Values one chapter publishes for another (the craft bag for the blends hand-off, etc.). */
   const shared = {};
@@ -74,7 +75,8 @@ function createScrollEngine({ reducedMotion }) {
     for (const s of scenes) {
       const p = progress(s, y);
       if (s.sp === null) s.sp = p;
-      s.sp += (p - s.sp) * (s.lag ?? 0.13);
+      // a button glide is already paced and eased, so scenes follow it a little more closely
+      s.sp += (p - s.sp) * (gliding ? Math.max(0.2, s.lag ?? 0.13) : (s.lag ?? 0.13));
       if (Math.abs(p - s.sp) < 0.0004) s.sp = p;
       if (s.sp !== p) busy = true;
       if (s.sp !== s.last) { s.render(s.sp); s.last = s.sp; }
@@ -97,6 +99,11 @@ function createScrollEngine({ reducedMotion }) {
   function jumpTo(y) {
     if (y == null) return;
     y = Math.max(0, Math.round(y));
+    // chapters far away are hidden (lib/pauseOffscreen.js) and only shown again by an observer a frame later:
+    // show them all for the jump, so the chapter landed on never flashes empty
+    document.querySelectorAll('main > section.is-off').forEach((s) => s.classList.remove('is-off'));
+    // a stage the browser scrolled to an anchor inside it (older browsers without overflow: clip) is put back
+    document.querySelectorAll('.sticky').forEach((s) => { if (s.scrollTop || s.scrollLeft) s.scrollTop = s.scrollLeft = 0; });
     window.scrollTo(0, y);
     if (!reducedMotion) {
       for (const s of scenes) {
@@ -106,6 +113,12 @@ function createScrollEngine({ reducedMotion }) {
       }
     }
     runFrameHooks(y);
+    wake();
+  }
+
+  /** The ← → buttons say when they are gliding the page, so the scenes keep up with it. */
+  function setGliding(on) {
+    gliding = !!on;
     wake();
   }
 
@@ -185,7 +198,7 @@ function createScrollEngine({ reducedMotion }) {
     cleanups = [];
   }
 
-  return { reducedMotion, shared, addScene, addFrameHook, addMeasureHook, addResizeHook, measure, wake, jumpTo, progress, start, stop };
+  return { reducedMotion, shared, addScene, addFrameHook, addMeasureHook, addResizeHook, measure, wake, jumpTo, progress, setGliding, start, stop };
 }
 
 /** The page has one scroll, so it has one engine. */

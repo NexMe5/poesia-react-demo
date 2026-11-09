@@ -4,7 +4,7 @@ function Tool({ tool, hidden }) {
   return (
     <div className="tm" aria-hidden={hidden || undefined}>
       <div className="tm-img">
-        <img src={tool.src} alt={hidden ? '' : tool.size ? `${tool.name} ${tool.size}` : tool.name} style={{ '--th': tool.th }} loading="lazy" />
+        <img src={tool.src} alt={hidden ? '' : tool.size ? `${tool.name} ${tool.size}` : tool.name} style={{ '--th': tool.th }} loading="lazy" decoding="async" />
       </div>
       <span className="tm-cap"><b>{tool.name}</b>{tool.size && <i>{tool.size}</i>}</span>
     </div>

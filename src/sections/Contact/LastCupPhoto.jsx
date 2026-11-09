@@ -22,7 +22,7 @@ export default function LastCupPhoto() {
     <figure ref={setRef} className="lc-photo rv" aria-hidden="true">
       <div className="arch">
         <div className="plx">
-          <img src={img('cafe-signature.webp')} alt="" width="1000" height="1500" loading="lazy" />
+          <img src={img('cafe-signature.webp')} alt="" width="1000" height="1500" loading="lazy" decoding="async" />
           <svg className="steam" viewBox="0 0 100 190" preserveAspectRatio="none">
             <defs>
               <filter id="steamBlur" x="-50%" y="-20%" width="200%" height="140%"><feGaussianBlur stdDeviation="2.6" /></filter>

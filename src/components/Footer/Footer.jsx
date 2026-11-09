@@ -22,8 +22,8 @@ export default function Footer({ base = '' }) {
       <div className="foot-grid">
         <div className="foot-brand">
           <PageLink base={base} className="foot-logo" to={onStory ? '#top' : ''} aria-label="Poesia, back to the beginning">
-            <img src={img('emblem.webp')} alt="" width="515" height="520" />
-            <img src={img('wordmark-light.png')} alt="Poesia" width="900" height="309" />
+            <img src={img('emblem.webp')} alt="" width="515" height="520" loading="lazy" decoding="async" />
+            <img src={img('wordmark-light.png')} alt="Poesia" width="900" height="309" loading="lazy" decoding="async" />
           </PageLink>
           <p className="foot-tag">Where every cup tells a <em>story</em></p>
           <p className="foot-note">Premium Indian coffee from Chikmagalur &amp; Coorg, roasted in Goa for cafés, hotels and restaurants.</p>

@@ -47,7 +47,7 @@ function Blends() {
           <Leaves variant="cl-a" />
           <Leaves variant="cl-b" />
         </div>
-        <div className="blend-wash" aria-hidden="true" />
+        <div className="blend-wash" aria-hidden="true"><i /></div>
         <div className="counter" aria-hidden="true"><div className="ctr-top" /><div className="ctr-front" /></div>
         <h3 className="range-title t-title" aria-hidden="true">Four blends, one <em>story</em>.</h3>
         <div className="cbeans" aria-hidden="true">
@@ -57,6 +57,8 @@ function Blends() {
               className={b.far ? 'cbean far' : 'cbean'}
               src={b.src}
               alt=""
+              loading="lazy"
+              decoding="async"
               style={{ '--x': b.x, '--y': b.y, '--xm': b.xm, '--ym': b.ym, '--w': b.w, '--r': b.r, ...(b.d ? { '--d': b.d } : {}) }}
             />
           ))}
@@ -70,7 +72,7 @@ function Blends() {
           {BLENDS.map((b) => <i key={b.id} className="bshadow" />)}
           {BLENDS.map((b) => (
             <div key={b.id} className="bbag" style={{ '--bd': b.bag.breathe }}>
-              <img src={b.bag.src} alt="" width={b.bag.width} height={b.bag.height} />
+              <img src={b.bag.src} alt="" width={b.bag.width} height={b.bag.height} loading="lazy" decoding="async" />
             </div>
           ))}
         </div>

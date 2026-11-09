@@ -9,6 +9,8 @@ export const CONTACT = {
   instagramHandle: '@poesia_india',
   address: 'H No. 839/16(3), Shetye Residency, Alto Porvorim, Socorro, Bardez, Goa',
   addressShort: 'Alto Porvorim, Bardez, Goa',
+  /** the rest of the address, shown under addressShort in the contact block */
+  addressRest: 'Roastery & office · H No. 839/16(3), Shetye Residency, Socorro',
   directions: 'https://www.google.com/maps/search/?api=1&query=Shetye+Residency+Alto+Porvorim+Socorro+Bardez+Goa',
 };
 
