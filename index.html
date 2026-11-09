@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- one React app for every page: / (the story), /privacy-policy, /terms. The build prerenders each one. -->
-<html lang="en" class="js">
+<html lang="en-IN" class="js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -12,8 +12,15 @@
     <meta name="color-scheme" content="only light" />
     <meta name="theme-color" content="#140c06" />
     <meta name="author" content="Poesia India" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="application-name" content="Poesia" />
+    <meta name="apple-mobile-web-app-title" content="Poesia" />
+    <!-- favicons: .ico for older browsers and crawlers that ask for /favicon.ico, the 64 px PNG for the tab,
+         the 192 px PNG so Google Search has a sharp square icon (it recommends larger than 48x48) -->
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <!-- the intro waits for these two faces (the POESIA wordmark is painted in Baskerville, the loader's count is Lato):
          fetch them with the HTML instead of after the stylesheet has been read -->

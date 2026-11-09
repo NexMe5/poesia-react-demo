@@ -1,6 +1,6 @@
 import { prerenderToNodeStream } from 'react-dom/static';
 import App from './App';
-import { seoFor, SITEMAP, structuredData } from './data/seo';
+import { seoFor, robotsFor, SITEMAP, structuredData } from './data/seo';
 
 /**
  * Build-time rendering (used by scripts/prerender.mjs, never shipped to the browser).
@@ -13,4 +13,4 @@ export async function render(path) {
   return html;
 }
 
-export { seoFor, SITEMAP, structuredData };
+export { seoFor, robotsFor, SITEMAP, structuredData };

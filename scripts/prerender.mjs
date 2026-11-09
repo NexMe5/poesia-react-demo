@@ -5,7 +5,8 @@
  * Site URL, first match wins:
  *   SITE_URL=https://www.example.com          set it yourself (any host, or a custom domain)
  *   VERCEL_PROJECT_PRODUCTION_URL             set by Vercel during its builds (follows a custom domain too)
- *   http://localhost:4173                     local fallback, with a warning
+ *   https://poesiaindia.com                   the live domain, so a build made anywhere never ships
+ *                                             localhost canonical URLs or structured data
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,12 +17,12 @@ const dist = path.resolve(root, process.env.PRERENDER_DIST || 'dist');
 const serverEntry = path.resolve(root, process.env.PRERENDER_SSR || 'dist-ssr', 'entry-server.js');
 
 const fromVercel = process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-const SITE = (process.env.SITE_URL || fromVercel || 'http://localhost:4173').replace(/\/+$/, '');
+const SITE = (process.env.SITE_URL || fromVercel || 'https://poesiaindia.com').replace(/\/+$/, '');
 if (!process.env.SITE_URL && !fromVercel) {
-  console.warn(`[prerender] SITE_URL is not set — using ${SITE}. Set SITE_URL for a production build outside Vercel.`);
+  console.log(`[prerender] SITE_URL is not set — using ${SITE}.`);
 }
 
-const { render, seoFor, SITEMAP, structuredData } = await import(pathToFileURL(serverEntry).href);
+const { render, seoFor, robotsFor, SITEMAP, structuredData } = await import(pathToFileURL(serverEntry).href);
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 
 // Safety net: every page must be styled by the stylesheet(s) linked in <head>, or it would flash unstyled
@@ -46,7 +47,7 @@ function head(route) {
   const tags = [
     `<title>${esc(seo.title)}</title>`,
     `<meta name="description" content="${esc(seo.description)}" />`,
-    `<meta name="robots" content="${seo.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}" />`,
+    `<meta name="robots" content="${esc(robotsFor(seo))}" />`,
     url && `<link rel="canonical" href="${url}" />`,
     `<meta property="og:type" content="website" />`,
     `<meta property="og:site_name" content="Poesia" />`,
@@ -55,6 +56,7 @@ function head(route) {
     `<meta property="og:description" content="${esc(seo.description)}" />`,
     url && `<meta property="og:url" content="${url}" />`,
     `<meta property="og:image" content="${SITE}/og-image.jpg" />`,
+    `<meta property="og:image:type" content="image/jpeg" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:image:alt" content="Poesia coffee: four 1 kg bags of the house blends in sunlight" />`,
@@ -74,7 +76,7 @@ async function page(route, file) {
     .replace(/<!--seo-->[\s\S]*?<!--\/seo-->/, head(route))
     .replace('<div id="root"></div>', `<div id="root" data-route="${route}">${html}</div>`);
   // the home page opens behind the loader: lock the scroll from the first paint
-  if (route === '/') out = out.replace('<html lang="en" class="js">', '<html lang="en" class="js pl-lock pl-wait">');
+  if (route === '/') out = out.replace('<html lang="en-IN" class="js">', '<html lang="en-IN" class="js pl-lock pl-wait">');
   fs.writeFileSync(path.join(dist, file), out);
   console.log(`[prerender] ${route === 404 ? '404' : route} → ${file} (${(out.length / 1024).toFixed(0)} KB)`);
 }

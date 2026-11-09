@@ -31,6 +31,11 @@ export const PAGES = {
 
 export const seoFor = (path) => PAGES[path] || PAGES[404];
 
+/** robots meta for a page: indexable pages allow large image previews and full-length snippets in results. */
+export const robotsFor = (seo) => (seo.noindex
+  ? 'noindex, follow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+
 /** Pages listed in sitemap.xml. */
 export const SITEMAP = [
   { path: '/', priority: '1.0', changefreq: 'monthly' },
@@ -51,7 +56,7 @@ export function structuredData(siteUrl) {
         '@type': 'LocalBusiness',
         '@id': org,
         name: BUSINESS.name,
-        alternateName: SITE_NAME,
+        alternateName: [SITE_NAME, 'Poesia Coffee'],
         description: PAGES['/'].description,
         url: `${siteUrl}/`,
         logo: `${siteUrl}/logo.png`,
@@ -87,6 +92,7 @@ export function structuredData(siteUrl) {
         '@id': `${siteUrl}/#website`,
         url: `${siteUrl}/`,
         name: SITE_NAME,
+        alternateName: [BUSINESS.name, 'Poesia Coffee'],
         inLanguage: 'en-IN',
         publisher: { '@id': org },
       },

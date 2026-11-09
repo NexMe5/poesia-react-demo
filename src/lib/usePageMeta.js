@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { seoFor, SITE_NAME, OG_IMAGE } from '../data/seo';
+import { seoFor, robotsFor, SITE_NAME, OG_IMAGE } from '../data/seo';
 
 function setMeta(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -18,7 +18,7 @@ export function usePageMeta(path) {
     const url = origin + (path === 404 ? window.location.pathname : path);
     document.title = seo.title;
     setMeta('name', 'description', seo.description);
-    setMeta('name', 'robots', seo.noindex ? 'noindex, follow' : 'index, follow');
+    setMeta('name', 'robots', robotsFor(seo));
     setMeta('property', 'og:title', seo.title);
     setMeta('property', 'og:description', seo.description);
     setMeta('property', 'og:url', url);
