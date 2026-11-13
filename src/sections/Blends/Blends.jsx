@@ -47,8 +47,12 @@ function Blends() {
           <Leaves variant="cl-a" />
           <Leaves variant="cl-b" />
         </div>
+        <div className="wall-shade" aria-hidden="true"><Leaves variant="cl-w" /></div>
         <div className="blend-wash" aria-hidden="true"><i /></div>
-        <div className="counter" aria-hidden="true"><div className="ctr-top" /><div className="ctr-front" /></div>
+        <div className="counter" aria-hidden="true">
+          <div className="ctr-top" />
+          <div className="ctr-front" />
+        </div>
         <h3 className="range-title t-title" aria-hidden="true">Four blends, one <em>story</em>.</h3>
         <div className="cbeans" aria-hidden="true">
           {COUNTER_BEANS.map((b, i) => (

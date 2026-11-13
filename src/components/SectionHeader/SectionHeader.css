@@ -3,6 +3,10 @@
 .sh .label { display: block; color: var(--copper-l); margin-bottom: var(--s5); }
 .js .sh .label { opacity: 0; transform: translateY(12px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
 .js .sh .line > span { transform: translateY(150%); transition: transform 1.25s var(--ease); }
+/* the script word's tails (the j and y of journey, yours) hang ~.29em below the line: give its mask room below,
+   without moving the layout. At translateY(150%) the hidden line still sits fully under this taller mask. */
+.sh .line:has(em) { padding-bottom: .4em; margin-bottom: -.4em; }
+.sh .line:has(em):not(:last-child) { margin-bottom: -.56em; }   /* collapses with the next line's -.28em top margin */
 .js .sh .line:nth-child(2) > span { transition-delay: .09s; }
 .js .sh .line:nth-child(3) > span { transition-delay: .18s; }
 .js .sh.in .label { opacity: 1; transform: none; }

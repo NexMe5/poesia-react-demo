@@ -20,6 +20,13 @@
 .blend-dark::before { content: ""; position: absolute; inset: -15%; background: var(--window-light); opacity: .9; pointer-events: none; }
 .blend-dark::after { content: ""; position: absolute; inset: -15%; background: var(--window-shade); pointer-events: none; }
 .blends .sticky:not([data-s="0"]):not([data-s="1"]) .blend-dark { opacity: 0; transition-delay: 1.3s; }
+/* range shot, laptops and up: the plant's shadow on the wall just above the counter, bottom left, as on the other
+   cream chapters. Its own layer, shown only in the range shot: the hand-off ground must stay identical to the craft stage.
+   Under the wash, so the blend colour covers it; it leaves once the wash has filled the room. */
+.wall-shade { position: absolute; left: 0; top: 0; width: 46vw; height: var(--ctr-top); z-index: 2; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity .3s var(--smart) 1.3s; }
+.leaves.cl-w { top: auto; left: -9%; bottom: -34%; width: min(36vw, 560px); transform: rotate(180deg) scaleX(-1); opacity: .13; }
+.blends .sticky[data-s="1"] .wall-shade { opacity: 1; transition: opacity .9s var(--smart) .2s; }
+@media (max-width: 1023px) { .wall-shade { display: none; } }
 /* never seen (the cream stage or the wash always covers it), so it changes colour at once: animating it repainted the whole stage */
 .blend-bg { position: absolute; inset: 0; z-index: 0; background-color: #34250c; }
 /* the blend's colour pours out from the bag and fills the room: every frame is either cream or colour, never a mix of both.

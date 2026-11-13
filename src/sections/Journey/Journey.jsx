@@ -51,7 +51,7 @@ function Journey() {
           <SectionHeader
             className="jcard jintro"
             label="From soil to cup"
-            title={['The full', <>coffee <em>journey</em></>]}
+            title={['The full', 'coffee', <em>journey</em>]}
             titleId="journey-h"
           />
           {JOURNEY_STEPS.map((step) => <JourneyCard key={step.title} step={step} />)}

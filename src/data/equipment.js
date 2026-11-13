@@ -15,16 +15,16 @@ export const EQUIPMENT_CHAPTERS = [
   {
     word: 'Grinders', label: 'Grinders', variant: 'roomy grinders',
     items: [
-      { src: img('eq-motion65.webp'), alt: 'Eureka Motion 65 grinder', width: 313, height: 663, name: 'Eureka Motion 65', spec: '65 mm flat burrs', tall: true },
-      { src: img('eq-motion75.webp'), alt: 'Eureka Motion 75 grinder', width: 252, height: 716, name: 'Eureka Motion 75', spec: '75 mm flat burrs', tall: true },
+      { src: img('eq-motion75.webp'), alt: 'Eureka Motion 65 grinder', width: 252, height: 716, name: 'Eureka Motion 65', spec: '65 mm flat burrs', tall: true },
       { src: img('eq-bdose.webp'), alt: 'B-Dose Digit grinder', width: 313, height: 663, name: 'B-Dose Digit', spec: '2-dose & continuous', tall: true },
+      { src: img('eq-motion75.webp'), alt: 'Eureka Motion 75 grinder', width: 252, height: 716, name: 'Eureka Motion 75', spec: '75 mm flat burrs', tall: true },
     ],
   },
   {
     word: 'Automatic', label: 'Fully automatic machines', variant: 'roomy',
     items: [
-      { src: img('eq-f11.webp'), alt: 'Dr. Coffee F11 bean-to-cup machine', width: 295, height: 459, name: 'Dr. Coffee F11', spec: 'Up to 100 cups a day', tall: true },
-      { src: img('eq-m10.webp'), alt: 'Dr. Coffee M10 bean-to-cup machine', width: 292, height: 485, name: 'Dr. Coffee M10', spec: 'Dual pump · 7-inch screen', tall: true },
+      { src: img('eq-f11.webp'), alt: 'Dr. Coffee M10 bean-to-cup machine', width: 295, height: 459, name: 'Dr. Coffee M10', spec: 'Dual pump · 7-inch screen', tall: true },
+      { src: img('eq-m10.webp'), alt: 'Dr. Coffee F11 bean-to-cup machine', width: 292, height: 485, name: 'Dr. Coffee F11', spec: 'Up to 100 cups a day', tall: true },
       { src: img('eq-minibar.webp'), alt: 'Dr. Coffee Minibar bean-to-cup machine', width: 388, height: 668, name: 'Dr. Coffee Minibar', spec: 'Up to 24 drinks · Dual boiler', tall: true },
     ],
   },

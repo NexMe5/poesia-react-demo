@@ -15,8 +15,6 @@
   /* the range breathing on the counter kept four large layers moving every frame while the page sat still */
   html .blends .sticky[data-s="1"] .bbag { animation: none; }
 
-  /* the split bean: its warm glow and its shadow; the 1 px rim light is invisible at this size */
-  html .bean-half img { filter: drop-shadow(0 0 18px rgba(255, 140, 60, .32)) drop-shadow(0 26px 30px rgba(0, 0, 0, .6)); }
 
   /* hairline depth-of-field blurs and a 4% contrast lift: not visible on a phone, but each a filter pass */
   html .orbit .ob.back img { filter: drop-shadow(0 10px 10px rgba(60, 30, 10, .22)) brightness(.86); }

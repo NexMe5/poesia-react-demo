@@ -10,12 +10,18 @@ import { BLENDS, blendShotAt, blendShotMiddle } from '../../data/blends';
  *   2–5 one blend in focus, its colour pouring out from the bag and filling the room
  */
 
-/** The range fanned across the stage: [x vw, y vh, rotate, scale] for espresso, classico, dolce, crema. */
+/** The range fanned across the stage: [x vw, y vh, rotate, scale] for classico, espresso, dolce, crema (BLENDS order). */
 const SHELF = {
-  desktop: [[50, 84.6, -1.5, 0.74], [33.5, 80.2, -3.5, 0.6], [64.5, 80.8, 2.5, 0.62], [77.8, 78.6, 5, 0.52]],
-  phone: [[42, 70.6, -1.5, 0.66], [16, 67.6, -3.5, 0.5], [67, 68, 2.5, 0.52], [86, 66.4, 5, 0.44]],
+  // desktop: the group is centred under the title (it used to sit ~4.7vw right of it)
+  desktop: [[28.8, 80.2, -3.5, 0.6], [45.3, 84.6, -1.5, 0.74], [59.8, 80.8, 2.5, 0.62], [73.1, 78.6, 5, 0.52]],
+  phone: [[16, 67.6, -3.5, 0.5], [42, 70.6, -1.5, 0.66], [67, 68, 2.5, 0.52], [86, 66.4, 5, 0.44]],
 };
-const DEPTH = [1, 0.6, 0.66, 0.45];   // how far each bag drifts with the pointer
+const DEPTH = [0.6, 1, 0.66, 0.45];   // how far each bag drifts with the pointer
+/** Espresso is the hero: the craft stage hands it over, it stands front and centre on the counter.
+ *  The story then opens with Classico (BLENDS order). */
+const HERO = BLENDS.findIndex((b) => b.id === 'espresso');
+const FAN_Z = [3, 5, 2, 1];          // stacking on the counter: the hero in front, then classico, dolce, crema
+const RISE = [0.22, 0, 0.32, 0.42];  // the hero is already there; the others rise in behind it one after another
 
 export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
   const stage = q(section, '.sticky');
@@ -78,7 +84,7 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
     const H = window.innerHeight / 100;
     const k = s - 2;   // the blend in focus, or < 0 before the first one
     const shelf = mob ? SHELF.phone : SHELF.desktop;
-    const bh = el.bags[0].offsetHeight / H;
+    const bh = el.bags[HERO].offsetHeight / H;
     const fan = shelf.map(([x, bot, r, sc]) => [x, bot - bh * (0.1 + 0.4 * sc), r, sc]);
 
     stage.dataset.s = s;
@@ -98,11 +104,11 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
       const toFanX = fx * W - slot.x;
       const toFanY = fy * H - slot.y;
       if (s === 0) {
-        if (i === 0) pose(bag, hand.dx, hand.dy, hand.r, hand.s, 1, 0, 5);
-        else pose(bag, toFanX, toFanY + 14 * H, fr * 1.6, fs * 0.8, 0, 0, 4 - i);
+        if (i === HERO) pose(bag, hand.dx, hand.dy, hand.r, hand.s, 1, 0, 5);
+        else pose(bag, toFanX, toFanY + 14 * H, fr * 1.6, fs * 0.8, 0, 0, FAN_Z[i]);
       } else if (s === 1) {
         // the rest of the range rises in behind it, one after another
-        pose(bag, toFanX, toFanY, fr, fs, 1, i === 0 ? 0 : 0.12 + i * 0.1, i === 0 ? 5 : 4 - i);
+        pose(bag, toFanX, toFanY, fr, fs, 1, RISE[i], FAN_Z[i]);
       } else if (i === k) {
         pose(bag, alt, 0, alt ? 3 : 0, 1, 1, 0.05, 5);
       } else {
@@ -120,7 +126,7 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
       sh.style.setProperty('--sw', `${w * 1.02}px`);
       sh.style.transform = `translate(-50%,-50%) translate3d(${fx * W - slot.x}px,${bot * H - slot.y - 0.5 * H}px,0)`;
       sh.style.opacity = s === 1 ? 1 : 0;
-      sh.style.transitionDelay = s === 1 ? `${(i ? 0.12 + i * 0.1 : 0) + 0.5}s` : '0s';
+      sh.style.transitionDelay = s === 1 ? `${RISE[i] + 0.5}s` : '0s';
     });
     el.tags.forEach((t, i) => {
       t.style.left = `${shelf[i][0] * W}px`;
@@ -136,7 +142,7 @@ export function createBlendsStage(section, { reducedMotion, getCraftBag }) {
   function measure() {
     const craftBag = getCraftBag();
     sectionTop = section.getBoundingClientRect().top + window.scrollY;
-    const b0 = el.bags[0];
+    const b0 = el.bags[HERO];
     const st = stage.getBoundingClientRect();
     const cr = el.bagsWrap.getBoundingClientRect();
     slot.x = cr.left - st.left + b0.offsetLeft;

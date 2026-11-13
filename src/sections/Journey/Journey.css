@@ -16,6 +16,11 @@
 }
 .jintro { width: min(30vw, 500px); align-self: center; }
 .journey .sh .line { padding-inline: .3em; margin-inline: -.3em; }   /* room for the script j's swash */
+/* "journey" opens its own line, and the j's swash hangs ~.68em left of it: the mask makes room for all of it,
+   and the word steps in a little so the swash hangs in the margin without reaching the screen edge on phones */
+.journey .sh .line:has(em) { padding-left: .8em; margin-left: -.8em; }
+.journey .sh .line em { margin-left: .18em; }
+@media (max-width: 720px) { .journey .sh .line em { margin-left: .3em; } }   /* phones have only an 18px margin */
 .jcard:not(.jintro) > .label { color: var(--cream-muted); padding: 1.1rem .1rem 0 calc(.75 * clamp(1.6rem, 2.3vw, 2.4rem)); }
 /* the roast and the machine are cut-outs, lit on the same warm studio ground as the equipment chapter */
 .jcard.studio figure { background: radial-gradient(75% 60% at 50% 62%, #5a3419 0%, #2a180c 55%, #160d07 100%); }

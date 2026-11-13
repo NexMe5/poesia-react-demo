@@ -1,23 +1,23 @@
 import { img } from '../lib/assets';
 
 /**
- * The four blends. `tag` is the name set on the counter edge (lead word bold, the rest light);
+ * The four blends, in the order they are told (Classico first). `tag` is the name set on the counter edge (lead word bold, the rest light);
  * `alt` mirrors the shot on wide screens (bag left, words right).
  */
 export const BLENDS = [
   {
-    id: 'espresso', name: 'Espresso Italiano', short: 'Espresso', note: 'Toasty, honeyed, full-bodied',
-    tag: { lead: 'Espresso', tail: ' Italiano' },
-    accent: '#e6bb45', arabica: 80, robusta: 20, roast: 5,
-    bag: { src: img('bag-espresso.webp'), width: 680, height: 1147, breathe: '0s' },
-    room: '#34250c', glow: 'rgba(240,190,70,.34)',
-  },
-  {
-    id: 'classico', name: 'Classico', short: 'Classico', note: 'Sweet, fruity & bright', alt: true,
+    id: 'classico', name: 'Classico', short: 'Classico', note: 'Sweet, fruity & bright',
     tag: { lead: 'Classico' },
     accent: '#c98ee6', arabica: 100, robusta: 0, roast: 4,
     bag: { src: img('bag-classico.webp'), width: 673, height: 1127, breathe: '-1.7s' },
     room: '#2a1431', glow: 'rgba(200,130,240,.32)',
+  },
+  {
+    id: 'espresso', name: 'Espresso Italiano', short: 'Espresso', note: 'Toasty, honeyed, full-bodied', alt: true,
+    tag: { lead: 'Espresso', tail: ' Italiano' },
+    accent: '#e6bb45', arabica: 80, robusta: 20, roast: 5,
+    bag: { src: img('bag-espresso.webp'), width: 680, height: 1147, breathe: '0s' },
+    room: '#34250c', glow: 'rgba(240,190,70,.34)',
   },
   {
     id: 'dolce', name: 'Dolce Vita Breakfast', short: 'Dolce', note: 'Bittersweet chocolate & cocoa',
@@ -37,13 +37,14 @@ export const BLENDS = [
 
 export const BLEND_HASHES = BLENDS.map((b) => `#blend-${b.id}`);
 
-/** Beans on the counter: three drop in from the orbit, two were already lying there. Desktop and phone positions. */
+/** Beans on the counter: three drop in from the orbit, two were already lying there. Desktop and phone positions
+ *  (desktop x moves with the bags on the counter, see SHELF in blendsStage.js). */
 export const COUNTER_BEANS = [
-  { src: img('rb-00.webp'), x: '43.5vw', y: '84.4vh', xm: '33vw', ym: '70.6vh', w: '46px', r: '28deg', d: '.38s' },
-  { src: img('rb-11.webp'), x: '57vw', y: '85vh', xm: '54vw', ym: '71.1vh', w: '38px', r: '-52deg', d: '.52s' },
-  { src: img('rb-06.webp'), x: '71vw', y: '82.4vh', xm: '77vw', ym: '69vh', w: '36px', r: '74deg', d: '.64s' },
-  { src: img('rb-17.webp'), x: '26.5vw', y: '80.8vh', xm: '6vw', ym: '66.8vh', w: '30px', r: '12deg', far: true },
-  { src: img('rb-08.webp'), x: '85.5vw', y: '79.8vh', xm: '95vw', ym: '66.2vh', w: '26px', r: '-24deg', far: true },
+  { src: img('rb-00.webp'), x: '38.8vw', y: '84.4vh', xm: '33vw', ym: '70.6vh', w: '46px', r: '28deg', d: '.38s' },
+  { src: img('rb-11.webp'), x: '52.3vw', y: '85vh', xm: '54vw', ym: '71.1vh', w: '38px', r: '-52deg', d: '.52s' },
+  { src: img('rb-06.webp'), x: '66.3vw', y: '82.4vh', xm: '77vw', ym: '69vh', w: '36px', r: '74deg', d: '.64s' },
+  { src: img('rb-17.webp'), x: '21.8vw', y: '80.8vh', xm: '6vw', ym: '66.8vh', w: '30px', r: '12deg', far: true },
+  { src: img('rb-08.webp'), x: '80.8vw', y: '79.8vh', xm: '95vw', ym: '66.2vh', w: '26px', r: '-24deg', far: true },
 ];
 
 /**
